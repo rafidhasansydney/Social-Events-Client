@@ -135,6 +135,13 @@ const marqueeItems = [
   "Volunteering",
 ];
 
+const galleryImages = [
+  { src: "/images/cleanup.png", caption: "Riverbank cleanup at dawn" },
+  { src: "/images/plantation.png", caption: "Planting hope together" },
+  { src: "/images/schoolkit.png", caption: "Backpacks and big smiles" },
+  { src: "/images/impact.png", caption: "Warm meals, warmer hearts" },
+];
+
 const features = [
   {
     icon: CalendarCheck,
@@ -324,6 +331,23 @@ export default function Home() {
           background: #fff; color: #132a1f;
         }
         .nl-input:focus { border-color: #10b981; }
+        .gallery-item {
+          position: relative; overflow: hidden; border-radius: 18px; aspect-ratio: 4/3;
+        }
+        .gallery-item img {
+          width: 100%; height: 100%; object-fit: cover;
+          transition: transform .5s cubic-bezier(.22,1,.36,1);
+        }
+        .gallery-item:hover img { transform: scale(1.07); }
+        .gallery-caption {
+          position: absolute; left: 12px; bottom: 12px;
+          padding: 6px 14px; border-radius: 999;
+          background: rgba(4,14,10,.55); backdrop-filter: blur(8px);
+          color: #fff; font-size: 12.5; font-weight: 500;
+          opacity: 0; transform: translateY(6px);
+          transition: opacity .3s ease, transform .3s ease;
+        }
+        .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
         @media (max-width: 560px) {
           .nl-form { flex-direction: column; }
           .nl-input { min-width: 0; }
@@ -1168,6 +1192,195 @@ export default function Home() {
               View All Events →
             </button>
           </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.14 } } }}
+        style={{
+          background: "#ffffff",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px, 5vw, 64px)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1180,
+            margin: "0 auto",
+            display: "grid",
+            gap: "clamp(36px, 5vw, 64px)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            alignItems: "center",
+          }}
+        >
+          <motion.div variants={reveal}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: 999,
+                background: "rgba(245,158,11,.14)",
+                color: "#b45309",
+                fontSize: 12.5,
+                fontWeight: 700,
+                letterSpacing: ".14em",
+                textTransform: "uppercase",
+                marginBottom: 18,
+              }}
+            >
+              Our impact
+            </span>
+            <h2
+              style={{
+                fontFamily: palette.display,
+                fontWeight: 700,
+                fontSize: "clamp(30px, 4vw, 46px)",
+                letterSpacing: "-.02em",
+                lineHeight: 1.15,
+                color: "#132a1f",
+                margin: "0 0 18px",
+              }}
+            >
+              Change begins with people who{" "}
+              <span style={{ fontStyle: "italic", color: palette.accent }}>show up</span>
+            </h2>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.8,
+                color: "rgba(19,42,31,.66)",
+                margin: "0 0 26px",
+              }}
+            >
+              It doesn't take much — a blanket, a meal, an afternoon of your
+              time. When neighbours show up for each other, small acts quietly
+              turn into movements.
+            </p>
+            <button
+              className="btn-primary"
+              style={{
+                padding: "14px 28px",
+                borderRadius: 13,
+                fontWeight: 700,
+                fontSize: 15,
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Become a Volunteer →
+            </button>
+          </motion.div>
+
+          <motion.div variants={reveal} style={{ position: "relative" }}>
+            <img
+              src="/images/impact.png"
+              alt="Volunteers serving hot meals to elderly men in a village courtyard"
+              style={{
+                width: "100%",
+                height: "clamp(320px, 40vw, 460px)",
+                objectFit: "cover",
+                borderRadius: 24,
+                boxShadow: "0 30px 70px -30px rgba(19,42,31,.4)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                right: "clamp(14px, 3vw, 28px)",
+                bottom: -22,
+                background: "#0b1f16",
+                color: "#fff",
+                borderRadius: 16,
+                padding: "16px 22px",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                boxShadow: "0 18px 40px -18px rgba(19,42,31,.5)",
+              }}
+            >
+              <TrendingUp size={20} color="#10b981" />
+              <div>
+                <p style={{ margin: 0, fontFamily: palette.display, fontWeight: 700, fontSize: 20 }}>
+                  8,500+
+                </p>
+                <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,.6)" }}>
+                  lives touched so far
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.09 } } }}
+        style={{
+          background: "#faf8f2",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px, 5vw, 64px)",
+        }}
+      >
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <motion.div variants={reveal} style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 60px)" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: 999,
+                background: "rgba(16,185,129,.12)",
+                color: "#0c7a5a",
+                fontSize: 12.5,
+                fontWeight: 700,
+                letterSpacing: ".14em",
+                textTransform: "uppercase",
+                marginBottom: 18,
+              }}
+            >
+              Gallery
+            </span>
+            <h2
+              style={{
+                fontFamily: palette.display,
+                fontWeight: 700,
+                fontSize: "clamp(30px, 4vw, 48px)",
+                letterSpacing: "-.02em",
+                lineHeight: 1.12,
+                color: "#132a1f",
+                margin: 0,
+              }}
+            >
+              Moments of{" "}
+              <span style={{ fontStyle: "italic", color: palette.accent }}>change</span>
+            </h2>
+            <p
+              style={{
+                marginTop: 14,
+                fontSize: 16,
+                color: "rgba(19,42,31,.62)",
+              }}
+            >
+              Glimpses from community service events powered by our volunteers.
+            </p>
+          </motion.div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: 18,
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            }}
+          >
+            {galleryImages.map((photo) => (
+              <motion.div key={photo.src} variants={reveal} className="gallery-item">
+                <img src={photo.src} alt={photo.caption} loading="lazy" />
+                <span className="gallery-caption">{photo.caption}</span>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </motion.section>
 
