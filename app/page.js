@@ -2,37 +2,38 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { CalendarPlus, Users, HeartHandshake } from "lucide-react";
 
-/* ---------- palette (single place to tweak later) ---------- */
 const palette = {
-  accent: "#10b981", // emerald
-  accent2: "#f59e0b", // amber
-  ink: "#0b1f16", // deep forest for dark areas
+  accent: "#10b981",
+  accent2: "#f59e0b",
+  ink: "#0b1f16",
   display: "'Fraunces', Georgia, serif",
   body: "'Inter', system-ui, sans-serif",
 };
 
-/* ---------- small count-up hook ---------- */
 function useCountUp(target, start, duration = 1800) {
   const [value, setValue] = useState(0);
+
   useEffect(() => {
     if (!start) return;
     let raf;
     const t0 = performance.now();
     const tick = (now) => {
       const p = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setValue(Math.round(target * eased));
+      setValue(Math.round(target * (1 - Math.pow(1 - p, 3))));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [target, start, duration]);
+
   return value;
 }
 
 function Stat({ target, suffix, label, start }) {
   const value = useCountUp(target, start);
+
   return (
     <div style={{ textAlign: "center", minWidth: 120 }}>
       <p
@@ -63,7 +64,6 @@ function Stat({ target, suffix, label, start }) {
   );
 }
 
-/* ---------- entrance variants ---------- */
 const lineReveal = {
   hidden: { y: "115%" },
   show: (i) => ({
@@ -81,7 +81,34 @@ const fadeUp = {
   }),
 };
 
-const MARQUEE_ITEMS = [
+const reveal = {
+  hidden: { opacity: 0, y: 34 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const steps = [
+  {
+    icon: CalendarPlus,
+    title: "Create your event",
+    text: "Post a clothes drive, a cleanup or a plantation day in minutes — add the details, set the date, done.",
+  },
+  {
+    icon: Users,
+    title: "Volunteers join in",
+    text: "People nearby discover your event and join with a single click. Every join is saved and tracked.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Change happens",
+    text: "Show up together, serve the community and watch your impact grow event by event.",
+  },
+];
+
+const marqueeItems = [
   "Cleanup",
   "Plantation",
   "Donation",
@@ -95,6 +122,7 @@ const MARQUEE_ITEMS = [
 export default function Home() {
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-40px" });
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div style={{ fontFamily: palette.body, background: "#081511" }}>
@@ -138,9 +166,38 @@ export default function Home() {
           transition: transform .22s ease, background .22s ease;
         }
         .btn-glass:hover { transform: translateY(-2px); background: rgba(255,255,255,.16); }
+        .nav-burger {
+          display: none; width: 42px; height: 42px; border-radius: 12px;
+          background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.24);
+          backdrop-filter: blur(10px); place-items: center; cursor: pointer;
+        }
+        @media (max-width: 900px) {
+          .nav-links { display: none !important; }
+          .nav-burger { display: grid; }
+        }
+        @media (max-width: 640px) {
+          .hero-stats {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr);
+            width: 100% !important;
+            gap: 18px 6px !important;
+            padding: 20px !important;
+          }
+          .nav-login { padding: 9px 16px !important; font-size: 13.5px !important; }
+        }
+        .hiw-card {
+          background: #fff; border: 1px solid rgba(19,42,31,.08); border-radius: 20px;
+          padding: 30px 26px; position: relative; overflow: hidden;
+          transition: transform .28s ease, box-shadow .28s ease;
+        }
+        .hiw-card:hover { transform: translateY(-6px); box-shadow: 0 22px 48px -22px rgba(19,42,31,.28); }
+        .hiw-num {
+          position: absolute; top: -26px; right: 2px; line-height: 1;
+          font-family: ${palette.display}; font-style: italic; font-weight: 700;
+          font-size: 108px; color: rgba(19,42,31,.055); pointer-events: none;
+        }
       `}</style>
 
-      {/* ================= NAVBAR ================= */}
       <motion.header
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -197,27 +254,92 @@ export default function Home() {
           </span>
         </div>
 
-        <nav style={{ display: "flex", gap: 30, alignItems: "center" }}>
+        <nav className="nav-links" style={{ display: "flex", gap: 30, alignItems: "center" }}>
           <span className="nav-link">Home</span>
           <span className="nav-link">Upcoming Events</span>
           <span className="nav-link">About</span>
         </nav>
 
-        <button
-          className="btn-glass"
-          style={{
-            padding: "10px 22px",
-            borderRadius: 999,
-            fontWeight: 600,
-            fontSize: 14.5,
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <button
+            className="btn-glass nav-login"
+            style={{
+              padding: "10px 22px",
+              borderRadius: 999,
+              fontWeight: 600,
+              fontSize: 14.5,
+              cursor: "pointer",
+            }}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            className="nav-burger"
+            aria-label="Toggle menu"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#fff"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+            >
+              <path d={menuOpen ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"} />
+            </svg>
+          </button>
+        </div>
+
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              background: "rgba(6,17,12,.94)",
+              backdropFilter: "blur(16px)",
+              borderBottom: "1px solid rgba(255,255,255,.12)",
+              padding: "14px 24px 22px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            {["Home", "Upcoming Events", "About"].map((label) => (
+              <span
+                key={label}
+                className="nav-link"
+                style={{ padding: "12px 4px", fontSize: 16, color: "#fff" }}
+                onClick={() => setMenuOpen(false)}
+              >
+                {label}
+              </span>
+            ))}
+            <button
+              className="btn-glass"
+              style={{
+                marginTop: 12,
+                padding: "12px 0",
+                borderRadius: 12,
+                fontWeight: 600,
+                fontSize: 15,
+                cursor: "pointer",
+              }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Login
+            </button>
+          </motion.div>
+        )}
       </motion.header>
 
-      {/* ================= HERO ================= */}
       <section
         style={{
           position: "relative",
@@ -227,7 +349,6 @@ export default function Home() {
           overflow: "hidden",
         }}
       >
-        {/* photo with slow zoom */}
         <img
           src="/images/hero.png"
           alt="Volunteers distributing warm blankets and winter clothes on a sunlit Dhaka street"
@@ -241,7 +362,6 @@ export default function Home() {
             objectPosition: "center",
           }}
         />
-        {/* layered gradients for readability */}
         <div
           style={{
             position: "absolute",
@@ -259,7 +379,6 @@ export default function Home() {
           }}
         />
 
-        {/* floating accent orbs */}
         <div
           className="float-y"
           style={{
@@ -288,7 +407,6 @@ export default function Home() {
           }}
         />
 
-        {/* hero content */}
         <div
           style={{
             position: "relative",
@@ -378,9 +496,9 @@ export default function Home() {
               color: "rgba(255,255,255,.82)",
             }}
           >
-            Bandhan is where communities come together — create a social
-            service event, invite volunteers and track the change you make,
-            one event at a time.
+            Bandhan is where communities come together — create a social service
+            event, invite volunteers and track the change you make, one event
+            at a time.
           </motion.p>
 
           <motion.div
@@ -416,7 +534,6 @@ export default function Home() {
               Create an Event
             </button>
 
-            {/* social proof avatars */}
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginLeft: 8 }}>
               <div style={{ display: "flex" }}>
                 {[
@@ -451,9 +568,9 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* stats bar */}
           <motion.div
             ref={statsRef}
+            className="hero-stats"
             variants={fadeUp}
             custom={3}
             initial="hidden"
@@ -479,7 +596,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= MARQUEE STRIP ================= */}
       <div
         style={{
           borderTop: "1px solid rgba(255,255,255,.1)",
@@ -492,7 +608,7 @@ export default function Home() {
         <div className="marquee-track">
           {[0, 1].map((copy) => (
             <div key={copy} style={{ display: "flex", gap: 56, flexShrink: 0 }}>
-              {MARQUEE_ITEMS.map((item) => (
+              {marqueeItems.map((item) => (
                 <span
                   key={`${copy}-${item}`}
                   style={{
@@ -514,6 +630,127 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.14 } },
+        }}
+        style={{
+          background: "#faf8f2",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px, 5vw, 64px)",
+        }}
+      >
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <motion.div
+            variants={reveal}
+            style={{ textAlign: "center", marginBottom: "clamp(44px, 6vw, 68px)" }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: 999,
+                background: "rgba(16,185,129,.12)",
+                color: "#0c7a5a",
+                fontSize: 12.5,
+                fontWeight: 700,
+                letterSpacing: ".14em",
+                textTransform: "uppercase",
+                marginBottom: 18,
+              }}
+            >
+              How it works
+            </span>
+            <h2
+              style={{
+                fontFamily: palette.display,
+                fontWeight: 700,
+                fontSize: "clamp(32px, 4.5vw, 52px)",
+                letterSpacing: "-.02em",
+                lineHeight: 1.1,
+                color: "#132a1f",
+                margin: 0,
+              }}
+            >
+              Three steps to a{" "}
+              <span style={{ fontStyle: "italic", color: palette.accent }}>
+                better tomorrow
+              </span>
+            </h2>
+            <p
+              style={{
+                marginTop: 16,
+                fontSize: 16.5,
+                lineHeight: 1.7,
+                color: "rgba(19,42,31,.65)",
+                maxWidth: 460,
+                marginInline: "auto",
+              }}
+            >
+              From an idea to real impact — the whole journey takes minutes.
+            </p>
+          </motion.div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: 24,
+              gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
+            }}
+          >
+            {steps.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <motion.div key={step.title} variants={reveal} className="hiw-card">
+                  <span className="hiw-num">0{i + 1}</span>
+                  <span
+                    style={{
+                      position: "relative",
+                      width: 52,
+                      height: 52,
+                      borderRadius: 16,
+                      background: `linear-gradient(135deg, ${palette.accent}, ${palette.accent2})`,
+                      display: "grid",
+                      placeItems: "center",
+                      color: "#fff",
+                      marginBottom: 20,
+                      boxShadow: "0 12px 26px -12px rgba(16,185,129,.6)",
+                    }}
+                  >
+                    <Icon size={24} strokeWidth={2.1} />
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: palette.display,
+                      fontWeight: 700,
+                      fontSize: 21,
+                      color: "#132a1f",
+                      margin: "0 0 10px",
+                      letterSpacing: "-.01em",
+                    }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: 14.5,
+                      lineHeight: 1.7,
+                      color: "rgba(19,42,31,.65)",
+                      margin: 0,
+                    }}
+                  >
+                    {step.text}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
     </div>
   );
 }
