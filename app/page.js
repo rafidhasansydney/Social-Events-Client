@@ -2,7 +2,23 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { CalendarPlus, Users, HeartHandshake } from "lucide-react";
+import {
+  Bell,
+  BookOpen,
+  CalendarCheck,
+  CalendarDays,
+  CalendarPlus,
+  HeartHandshake,
+  HeartPulse,
+  MapPin,
+  Recycle,
+  Shirt,
+  ShieldCheck,
+  TreePine,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import Footer from "@/components/Footer";
 
 const palette = {
   accent: "#10b981",
@@ -119,10 +135,96 @@ const marqueeItems = [
   "Volunteering",
 ];
 
+const features = [
+  {
+    icon: CalendarCheck,
+    title: "Easy event creation",
+    text: "Set up a cleanup drive, a clothes distribution or a plantation day in a couple of minutes.",
+  },
+  {
+    icon: Users,
+    title: "Join as a volunteer",
+    text: "Browse events around you and join the causes you care about with a single click.",
+  },
+  {
+    icon: MapPin,
+    title: "Find events nearby",
+    text: "Every event carries its location and date, so you always know where and when to show up.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure and trusted",
+    text: "JWT-protected accounts keep your data safe and only you can edit the events you create.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Track your impact",
+    text: "See every event you organized or joined in one place and watch your contribution grow.",
+  },
+  {
+    icon: Bell,
+    title: "Stay updated",
+    text: "Subscribe to the newsletter and never miss a new community service opportunity.",
+  },
+];
+
+const demoEvents = [
+  {
+    title: "Winter Clothes Distribution",
+    type: "Donation",
+    location: "Mirpur 10, Dhaka",
+    date: "12 Dec 2026",
+    icon: Shirt,
+    colors: ["#38bdf8", "#0ea5e9"],
+  },
+  {
+    title: "Buriganga River Cleanup",
+    type: "Cleanup",
+    location: "Keraniganj, Dhaka",
+    date: "18 Dec 2026",
+    icon: Recycle,
+    colors: ["#34d399", "#10b981"],
+  },
+  {
+    title: "Tree Plantation Drive",
+    type: "Plantation",
+    location: "Dhanmondi, Dhaka",
+    date: "22 Dec 2026",
+    icon: TreePine,
+    colors: ["#a3e635", "#65a30d"],
+  },
+  {
+    title: "Iftar Boxes for Street Children",
+    type: "Food Drive",
+    location: "Old Dhaka",
+    date: "05 Mar 2027",
+    icon: HeartHandshake,
+    colors: ["#fbbf24", "#f59e0b"],
+  },
+  {
+    title: "Free Blood Donation Camp",
+    type: "Health",
+    location: "Uttara, Dhaka",
+    date: "28 Dec 2026",
+    icon: HeartPulse,
+    colors: ["#fb7185", "#f43f5e"],
+  },
+  {
+    title: "School Kit Distribution",
+    type: "Education",
+    location: "Kamrangirchar, Dhaka",
+    date: "09 Jan 2027",
+    icon: BookOpen,
+    colors: ["#a78bfa", "#8b5cf6"],
+  },
+];
+
 export default function Home() {
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-40px" });
   const [menuOpen, setMenuOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   return (
     <div style={{ fontFamily: palette.body, background: "#081511" }}>
@@ -195,6 +297,36 @@ export default function Home() {
           position: absolute; top: -26px; right: 2px; line-height: 1;
           font-family: ${palette.display}; font-style: italic; font-weight: 700;
           font-size: 108px; color: rgba(19,42,31,.055); pointer-events: none;
+        }
+        .feature-card {
+          background: #fff; border: 1px solid rgba(19,42,31,.08); border-radius: 18px;
+          padding: 24px 22px;
+          transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+        }
+        .feature-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 18px 40px -20px rgba(19,42,31,.25);
+          border-color: rgba(16,185,129,.35);
+        }
+        .event-card {
+          background: #0f2419; border: 1px solid rgba(255,255,255,.09); border-radius: 18px;
+          overflow: hidden; display: flex; flex-direction: column;
+          transition: transform .28s ease, border-color .28s ease;
+        }
+        .event-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(16,185,129,.45);
+        }
+        .nl-input {
+          flex: 1; min-width: 220px; padding: 14px 18px; border-radius: 12;
+          border: 1.5px solid #d8ddd5; font-size: 15px; outline: none;
+          font-family: inherit; transition: border-color .2s ease;
+          background: #fff; color: #132a1f;
+        }
+        .nl-input:focus { border-color: #10b981; }
+        @media (max-width: 560px) {
+          .nl-form { flex-direction: column; }
+          .nl-input { min-width: 0; }
         }
       `}</style>
 
@@ -751,6 +883,413 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.08 } },
+        }}
+        style={{
+          background: "#ffffff",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px, 5vw, 64px)",
+        }}
+      >
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <motion.div variants={reveal} style={{ textAlign: "center", marginBottom: "clamp(44px, 6vw, 64px)" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: 999,
+                background: "rgba(16,185,129,.12)",
+                color: "#0c7a5a",
+                fontSize: 12.5,
+                fontWeight: 700,
+                letterSpacing: ".14em",
+                textTransform: "uppercase",
+                marginBottom: 18,
+              }}
+            >
+              Features
+            </span>
+            <h2
+              style={{
+                fontFamily: palette.display,
+                fontWeight: 700,
+                fontSize: "clamp(32px, 4.5vw, 52px)",
+                letterSpacing: "-.02em",
+                lineHeight: 1.1,
+                color: "#132a1f",
+                margin: 0,
+              }}
+            >
+              Everything you need{" "}
+              <span style={{ fontStyle: "italic", color: palette.accent }}>to serve</span>
+            </h2>
+            <p
+              style={{
+                marginTop: 16,
+                fontSize: 16.5,
+                lineHeight: 1.7,
+                color: "rgba(19,42,31,.65)",
+                maxWidth: 480,
+                marginInline: "auto",
+              }}
+            >
+              Built for organizers and volunteers who want to make a real
+              difference in their community.
+            </p>
+          </motion.div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: 20,
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            }}
+          >
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div key={feature.title} variants={reveal} className="feature-card">
+                  <span
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 13,
+                      background: "rgba(16,185,129,.1)",
+                      color: palette.accent,
+                      display: "grid",
+                      placeItems: "center",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <Icon size={21} strokeWidth={2.1} />
+                  </span>
+                  <h3
+                    style={{
+                      fontSize: 17,
+                      fontWeight: 600,
+                      color: "#132a1f",
+                      margin: "0 0 8px",
+                    }}
+                  >
+                    {feature.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: 14,
+                      lineHeight: 1.7,
+                      color: "rgba(19,42,31,.62)",
+                      margin: 0,
+                    }}
+                  >
+                    {feature.text}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        id="events"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.08 } },
+        }}
+        style={{
+          background: "#0b1f16",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px, 5vw, 64px)",
+        }}
+      >
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <motion.div variants={reveal} style={{ textAlign: "center", marginBottom: "clamp(44px, 6vw, 64px)" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: 999,
+                background: "rgba(16,185,129,.16)",
+                color: "#4ade80",
+                fontSize: 12.5,
+                fontWeight: 700,
+                letterSpacing: ".14em",
+                textTransform: "uppercase",
+                marginBottom: 18,
+              }}
+            >
+              Get involved
+            </span>
+            <h2
+              style={{
+                fontFamily: palette.display,
+                fontWeight: 700,
+                fontSize: "clamp(32px, 4.5vw, 52px)",
+                letterSpacing: "-.02em",
+                lineHeight: 1.1,
+                color: "#fff",
+                margin: 0,
+              }}
+            >
+              Recent{" "}
+              <span style={{ fontStyle: "italic", color: palette.accent }}>upcoming events</span>
+            </h2>
+            <p
+              style={{
+                marginTop: 16,
+                fontSize: 16.5,
+                lineHeight: 1.7,
+                color: "rgba(255,255,255,.6)",
+                maxWidth: 480,
+                marginInline: "auto",
+              }}
+            >
+              The six most recent events added by organizers. Join one and be
+              part of the change.
+            </p>
+          </motion.div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: 22,
+              gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
+            }}
+          >
+            {demoEvents.map((event) => {
+              const Icon = event.icon;
+              return (
+                <motion.div key={event.title} variants={reveal} className="event-card">
+                  <div
+                    style={{
+                      height: 170,
+                      background: `linear-gradient(135deg, ${event.colors[0]}, ${event.colors[1]})`,
+                      display: "grid",
+                      placeItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <Icon size={52} strokeWidth={1.6} color="rgba(255,255,255,.9)" />
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: 14,
+                        left: 14,
+                        padding: "5px 12px",
+                        borderRadius: 999,
+                        background: "rgba(4,14,10,.5)",
+                        backdropFilter: "blur(6px)",
+                        color: "#fff",
+                        fontSize: 11.5,
+                        fontWeight: 600,
+                        letterSpacing: ".06em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {event.type}
+                    </span>
+                  </div>
+                  <div style={{ padding: "20px 20px 22px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+                    <h3
+                      style={{
+                        fontFamily: palette.display,
+                        fontWeight: 700,
+                        fontSize: 19,
+                        color: "#fff",
+                        margin: 0,
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {event.title}
+                    </h3>
+                    <p
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        fontSize: 13.5,
+                        color: "rgba(255,255,255,.62)",
+                        margin: "4px 0 0",
+                      }}
+                    >
+                      <MapPin size={14} color={palette.accent} /> {event.location}
+                    </p>
+                    <p
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        fontSize: 13.5,
+                        color: "rgba(255,255,255,.62)",
+                        margin: 0,
+                      }}
+                    >
+                      <CalendarDays size={14} color={palette.accent} /> {event.date}
+                    </p>
+                    <button
+                      className="btn-glass"
+                      style={{
+                        marginTop: 14,
+                        padding: "11px 0",
+                        borderRadius: 11,
+                        fontWeight: 600,
+                        fontSize: 14,
+                        cursor: "pointer",
+                      }}
+                    >
+                      View Event
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <motion.div variants={reveal} style={{ textAlign: "center", marginTop: 48 }}>
+            <button
+              className="btn-primary"
+              style={{
+                padding: "14px 30px",
+                borderRadius: 13,
+                fontWeight: 700,
+                fontSize: 15,
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              View All Events →
+            </button>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
+        style={{
+          background: "#faf8f2",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px, 5vw, 64px)",
+        }}
+      >
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <motion.div
+            variants={reveal}
+            style={{
+              maxWidth: 720,
+              margin: "0 auto",
+              background: "#fff",
+              border: "1px solid rgba(19,42,31,.08)",
+              borderRadius: 24,
+              padding: "clamp(34px, 5vw, 56px)",
+              textAlign: "center",
+              boxShadow: "0 24px 60px -30px rgba(19,42,31,.2)",
+            }}
+          >
+            <span
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: 16,
+                background: "rgba(16,185,129,.1)",
+                color: palette.accent,
+                display: "inline-grid",
+                placeItems: "center",
+                marginBottom: 18,
+              }}
+            >
+              <Bell size={23} strokeWidth={2.1} />
+            </span>
+            <h2
+              style={{
+                fontFamily: palette.display,
+                fontWeight: 700,
+                fontSize: "clamp(26px, 3.5vw, 38px)",
+                letterSpacing: "-.02em",
+                color: "#132a1f",
+                margin: "0 0 12px",
+              }}
+            >
+              Get new events in your inbox
+            </h2>
+            <p
+              style={{
+                fontSize: 15.5,
+                lineHeight: 1.7,
+                color: "rgba(19,42,31,.62)",
+                maxWidth: 420,
+                margin: "0 auto 26px",
+              }}
+            >
+              Subscribe to the newsletter and be the first to know when a new
+              community service event is announced near you.
+            </p>
+
+            {subscribed ? (
+              <p
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "13px 22px",
+                  borderRadius: 12,
+                  background: "rgba(16,185,129,.1)",
+                  color: "#0c7a5a",
+                  fontWeight: 600,
+                  fontSize: 15,
+                  margin: 0,
+                }}
+              >
+                ✓ Thanks for subscribing! We will keep you posted.
+              </p>
+            ) : (
+              <form
+                className="nl-form"
+                style={{ display: "flex", gap: 12, maxWidth: 480, margin: "0 auto" }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (email.includes("@")) setSubscribed(true);
+                }}
+              >
+                <input
+                  className="nl-input"
+                  type="email"
+                  placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  style={{
+                    padding: "14px 28px",
+                    borderRadius: 12,
+                    fontWeight: 700,
+                    fontSize: 15,
+                    border: "none",
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Subscribe
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <Footer />
     </div>
   );
 }
