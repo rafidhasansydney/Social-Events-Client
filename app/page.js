@@ -13,12 +13,14 @@ import {
   Heart,
   Leaf,
   MapPin,
-  Menu,
   Sprout,
   Users,
   X,
 } from "lucide-react";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/Providers";
 
 const events = [
   {
@@ -131,7 +133,8 @@ function Reveal({ children, className = "", delay = 0 }) {
   );
 }
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  const { user } = useAuth();
   const [category, setCategory] = useState("All events");
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -179,10 +182,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [notice]);
   function accountNotice() {
-    setNotice(
-      "We’re getting things ready. Accounts and event registration will open soon.",
-    );
-    setMenuOpen(false);
+    router.push(user ? "/account" : "/register");
   }
   function preview(event, target) {
     openerRef.current = target;
@@ -199,66 +199,7 @@ export default function Home() {
           Find your next good deed <ArrowUpRight size={12} />
         </a>
       </div>
-      <header className="site-header">
-        <div className="container header-inner">
-          <a className="brand" href="#" aria-label="Bandhan home">
-            <Sprout size={29} strokeWidth={1.5} />
-            Bandhan<span>.</span>
-          </a>
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <a className="active" href="#">
-              Home
-            </a>
-            <a href="#events">Find an event</a>
-            <a href="#how-it-works">How it works</a>
-            <a href="#our-story">Our story</a>
-          </nav>
-          <div className="header-actions">
-            <button className="login-link" onClick={accountNotice}>
-              Log in <ArrowUpRight size={14} />
-            </button>
-            <a className="button small" href="#events">
-              Get involved <ArrowUpRight size={16} />
-            </a>
-            <button
-              className="menu-toggle"
-              aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-nav"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-        </div>
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.nav
-              id="mobile-nav"
-              className="mobile-nav"
-              aria-label="Mobile navigation"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-            >
-              {[
-                ["Home", "#"],
-                ["Find an event", "#events"],
-                ["How it works", "#how-it-works"],
-                ["Our story", "#our-story"],
-              ].map(([label, href]) => (
-                <a href={href} key={label} onClick={() => setMenuOpen(false)}>
-                  {label}
-                  <ArrowUpRight size={17} />
-                </a>
-              ))}
-              <button onClick={accountNotice}>
-                Log in <ArrowUpRight size={17} />
-              </button>
-            </motion.nav>
-          )}
-        </AnimatePresence>
-      </header>
+      <Header />
       <main id="main">
         <section className="hero container">
           <Reveal className="hero-copy">
@@ -699,7 +640,7 @@ export default function Home() {
           </Reveal>
         </section>
       </main>
-      <Footer onAccountClick={accountNotice} />
+      <Footer />
       <AnimatePresence>
         {notice && (
           <motion.div
