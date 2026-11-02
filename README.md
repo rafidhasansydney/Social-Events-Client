@@ -8,7 +8,7 @@ Live site: deployment pending.
 
 - Community-focused homepage with responsive photo galleries and event category filters.
 - Email registration and login with password validation and success notifications.
-- Google Login configured through BetterAuth; final Google account consent testing is pending.
+- Google Login through BetterAuth, verified with a real Google account on localhost.
 - Persistent sessions, profile photos, account menus and logout.
 - Protected account page backed by a JWT-verified API.
 - Same-origin API proxy for browser requests.
@@ -31,7 +31,7 @@ Local authorized JavaScript origin: `http://localhost:3000`.
 
 Local authorized redirect URI: `http://localhost:5000/api/auth/callback/google`.
 
-While the Google app is in Testing mode, add the Google accounts used for testing under Google Auth Platform > Audience. Complete a real Google sign-in to verify consent and the callback.
+While the Google app is in Testing mode, add the Google accounts used for testing under Google Auth Platform > Audience. Local Google sign-in, the callback and the protected account page have been verified with a real account. Repeat this check on the deployed site.
 
 ## Deployment
 
