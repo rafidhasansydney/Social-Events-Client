@@ -21,6 +21,17 @@ Profile menu → Your account খুলুন, অথবা http://localhost:300
 
 Email দিয়ে registration-এর সময়ও গ্যালারি বা কম্পিউটার থেকে প্রোফাইল ছবি বেছে দিতে পারবেন। Account তৈরি হওয়ার পরে ছবিটি upload হয়। Upload ব্যর্থ হলে প্রোফাইল থেকে আবার ছবি যোগ করতে পারবেন।
 
+## ইভেন্ট খোঁজা ও যোগ দেওয়া
+
+Homepage-এ database থেকে সবচেয়ে কাছের তারিখের সর্বোচ্চ ৬টি ইভেন্ট দেখা যায়। কম ইভেন্ট তৈরি থাকলে ততটিই দেখাবে। Upcoming Events-এ সব ভবিষ্যতের ইভেন্ট দেখা যাবে। Cause বেছে filter করুন, অথবা Search ঘরে ইভেন্টের নাম/এলাকা লিখে Search চাপুন।
+
+1. ইভেন্টের View Event চাপুন।
+2. Details-এ বিবরণ, ছবি, স্থান, তারিখ ও সময় দেখুন। লগইন ছাড়াও এই পেজ দেখা যায়।
+3. যোগ দিতে Join Event চাপুন। লগইন করা না থাকলে Log in to join চাপুন; login-এর পরে একই ইভেন্টে ফিরে আসবেন।
+4. সফল হলে You’re on the list দেখাবে। Reload করলেও এটি থাকবে। একই ইভেন্টে আবার যোগ দেওয়ার প্রয়োজন নেই।
+
+ইভেন্ট শুরু হয়ে গেলে নতুন করে join করা যাবে না। Copy link দিয়ে অন্য কাউকে ইভেন্টের লিংক দেওয়া যায়। নিজের সব joined events একসঙ্গে দেখার পেজ পরের phase-এ যুক্ত হবে।
+
 Google login নিজের Google-এর পেজে হয়। Bandhan-এর কোনো ফর্মে Google password দিতে হয় না। Email/password login-এর ক্ষেত্রে Bandhan-এ নিবন্ধনের সময় দেওয়া password ব্যবহার করুন।
 
 ## কম্পিউটার বন্ধ করার পরে আবার চালানো
@@ -55,8 +66,10 @@ npm run dev
 - Upcoming Events-এ database থেকে ভবিষ্যতের ইভেন্ট দেখা।
 - গ্যালারি/কম্পিউটার থেকে ইভেন্ট ও প্রোফাইলের ছবি upload।
 - নিজের প্রোফাইলের নাম, ছবি, এলাকা ও bio সম্পাদনা।
+- Homepage-এ সর্বোচ্চ ৬টি সত্যিকারের upcoming event।
+- ইভেন্টের ধরন ও নাম/এলাকা দিয়ে খোঁজা, public details দেখা এবং join করা।
 
-Homepage-এর ছয়টি ইভেন্ট এখনো নমুনা। নিজের তৈরি ইভেন্ট দেখতে navbar-এর Upcoming Events বা http://localhost:3000/upcoming-events ব্যবহার করুন। Event details, Join Event, Joined Events, Manage Events এবং live deployment পরের ধাপগুলোর কাজ।
+Joined Events-এর আলাদা তালিকা, Manage Events, theme পরিবর্তন এবং live deployment পরের ধাপগুলোর কাজ।
 
 ## সমস্যা হলে
 

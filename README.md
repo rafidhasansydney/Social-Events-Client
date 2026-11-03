@@ -18,8 +18,21 @@ Live site: deployment pending.
 - Database-backed Upcoming Events page with chronological cards and gathering descriptions.
 - Gallery and computer photo uploads for registration, events and profiles, with optional image links.
 - Editable account profile with a name, photo, area and short bio.
+- Database-backed homepage showing up to six upcoming events using MongoDB `.limit(6)`.
+- Public event details, working participation, duplicate-join prevention and return-to-event login.
+- Event type filters, title/location search, loading skeletons and event link sharing.
 
-The six homepage events are currently preview data. Database-backed homepage events, event detail pages, joining and event management are planned for the next phases.
+Homepage and Upcoming Events use saved events. Past events are excluded from listings. A dedicated Joined Events page, organizer update/delete tools, themes and deployment remain for later phases.
+
+## Finding and joining an event
+
+The homepage shows up to six upcoming events in date order. Cause filters run on the database before the six-event limit, so a category can find matching gatherings beyond the initial six. Upcoming Events shows all matching future events and supports case-insensitive literal searches by title or meeting location.
+
+Select View Event to open `/events/[id]`. Details are public and support direct navigation and reload. Images have a fallback, missing events show a recovery link, and service errors have retry controls. Loading uses skeletons. Event times use the device's local timezone. The invitation closes when the start time passes.
+
+Join Event requires login. Anonymous visitors go to Login with a return path to that event. Successful participation is saved for the verified user and remains visible after reloading. Repeated or simultaneous joins create only one participation record. Past events remain readable through their detail URL but cannot receive new joins. Copy link shares the current event address through the clipboard.
+
+Browser verification covered homepage-to-detail navigation, category empty states, location search, public details without a session, the login return path, joining, persisted participation after reload, missing-event recovery and 390px mobile layouts. The isolated live check verifies six-event limits, filtering before limiting, literal search, public data projection, concurrent duplicate prevention, trusted participant identities and rejection of past-event joins. Temporary browser records were removed after testing.
 
 ## Creating an event
 

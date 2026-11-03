@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
@@ -19,83 +19,10 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import EventCollection from "@/components/EventCollection";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/Providers";
 
-const events = [
-  {
-    id: 1,
-    title: "A little warmth. A lot of love.",
-    type: "Donation",
-    location: "Mirpur 10, Dhaka",
-    day: "12",
-    month: "DEC",
-    image: "/images/hero.png",
-    alt: "Volunteers sharing warm blankets with neighbours",
-    description:
-      "Help sort and distribute winter clothes and blankets. A few hours of your time can make the colder days a little easier for a family nearby.",
-  },
-  {
-    id: 2,
-    title: "A cleaner river starts with us.",
-    type: "Cleanup",
-    location: "Keraniganj, Dhaka",
-    day: "18",
-    month: "DEC",
-    image: "/images/cleanup.png",
-    alt: "Community volunteers cleaning a riverbank",
-    description:
-      "Spend a morning helping clean the riverbank. Bring a reusable water bottle, comfortable shoes and a willing pair of hands.",
-  },
-  {
-    id: 3,
-    title: "Leave something green behind.",
-    type: "Plantation",
-    location: "Dhanmondi, Dhaka",
-    day: "22",
-    month: "DEC",
-    image: "/images/sapling.jpg",
-    alt: "Hands holding a young green sapling",
-    description:
-      "Plant a sapling and help make our neighbourhood greener. Everyone is welcome, whether this is your first tree or your fiftieth.",
-  },
-  {
-    id: 4,
-    title: "A warm meal goes a long way.",
-    type: "Donation",
-    location: "Old Dhaka",
-    day: "26",
-    month: "DEC",
-    image: "/images/impact.png",
-    alt: "Volunteers serving meals to their community",
-    description:
-      "Join the team preparing and sharing fresh meals with neighbours. Help with packing, serving or simply making people feel welcome.",
-  },
-  {
-    id: 5,
-    title: "Make room for a greener city.",
-    type: "Plantation",
-    location: "Uttara, Dhaka",
-    day: "28",
-    month: "DEC",
-    image: "/images/plantation.png",
-    alt: "A group planting trees together",
-    description:
-      "Get your hands in the soil and plant trees in shared neighbourhood spaces. A morning well spent, with something lasting to show for it.",
-  },
-  {
-    id: 6,
-    title: "Small backpacks. Big beginnings.",
-    type: "Education",
-    location: "Kamrangirchar, Dhaka",
-    day: "09",
-    month: "JAN",
-    image: "/images/schoolkit.png",
-    alt: "Children receiving school supplies",
-    description:
-      "Help pack notebooks, pencils and school essentials for children getting ready for a new term. Give their next chapter a good start.",
-  },
-];
 const gallery = [
   {
     image: "/images/cleanup.png",
@@ -135,47 +62,9 @@ function Reveal({ children, className = "", delay = 0 }) {
 export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
-  const [category, setCategory] = useState("All events");
   const [galleryIndex, setGalleryIndex] = useState(0);
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const [notice, setNotice] = useState("");
-  const dialogRef = useRef(null);
-  const closeRef = useRef(null);
-  const openerRef = useRef(null);
   const reduced = useReducedMotion();
-  const visibleEvents =
-    category === "All events"
-      ? events
-      : events.filter((event) => event.type === category);
-  useEffect(() => {
-    if (!selectedEvent) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
-    function handleKey(event) {
-      if (event.key === "Escape") setSelectedEvent(null);
-      if (event.key === "Tab") {
-        const controls = dialogRef.current?.querySelectorAll("button, a[href]");
-        if (!controls?.length) return;
-        const first = controls[0];
-        const last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last.focus();
-        }
-        if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      }
-    }
-    document.addEventListener("keydown", handleKey);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKey);
-      openerRef.current?.focus();
-    };
-  }, [selectedEvent]);
   useEffect(() => {
     if (!notice) return;
     const timer = setTimeout(() => setNotice(""), 5500);
@@ -183,10 +72,6 @@ export default function Home() {
   }, [notice]);
   function accountNotice() {
     router.push(user ? "/create-event" : "/login?next=%2Fcreate-event");
-  }
-  function preview(event, target) {
-    openerRef.current = target;
-    setSelectedEvent(event);
   }
   return (
     <>
@@ -304,101 +189,7 @@ export default function Home() {
               Find a cause close to your heart, and close to home.
             </p>
           </Reveal>
-          <div className="event-toolbar">
-            <div
-              className="category-tabs"
-              role="group"
-              aria-label="Filter events by cause"
-            >
-              {[
-                "All events",
-                "Cleanup",
-                "Plantation",
-                "Donation",
-                "Education",
-              ].map((item) => (
-                <button
-                  key={item}
-                  className={category === item ? "selected" : ""}
-                  aria-pressed={category === item}
-                  onClick={() => setCategory(item)}
-                >
-                  {item}
-                  {category === item && (
-                    <span>
-                      {item === "All events"
-                        ? events.length
-                        : events.filter((event) => event.type === item).length}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-            <span className="sample-label">A preview of what’s to come</span>
-          </div>
-          <motion.div layout={!reduced} className="events-grid">
-            <AnimatePresence mode="popLayout">
-              {visibleEvents.map((event) => (
-                <motion.article
-                  layout={!reduced}
-                  key={event.id}
-                  className="event-card"
-                  initial={{ opacity: 0, y: reduced ? 0 : 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <button
-                    className="event-image"
-                    aria-label={`View ${event.title}`}
-                    onClick={(e) => preview(event, e.currentTarget)}
-                  >
-                    <Image
-                      src={event.image}
-                      alt={event.alt}
-                      fill
-                      sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw"
-                    />
-                    <span className="date-ticket">
-                      <strong>{event.day}</strong>
-                      {event.month}
-                    </span>
-                    <span
-                      className={`event-category ${event.type.toLowerCase()}`}
-                    >
-                      {event.type}
-                    </span>
-                    <span className="image-arrow">
-                      <ArrowUpRight size={22} />
-                    </span>
-                  </button>
-                  <div className="event-body">
-                    <p>
-                      <MapPin size={13} />
-                      {event.location}
-                    </p>
-                    <h3>
-                      <button onClick={(e) => preview(event, e.currentTarget)}>
-                        {event.title}
-                      </button>
-                    </h3>
-                    <div className="event-bottom">
-                      <span>Every pair of hands matters.</span>
-                      <button
-                        aria-label={`Explore ${event.title}`}
-                        onClick={(e) => preview(event, e.currentTarget)}
-                      >
-                        <ArrowUpRight size={19} />
-                      </button>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-          <p className="events-end">
-            <i />A few hours from you. A better day for someone else.
-          </p>
+          <EventCollection compact />
         </section>
         <section className="how-section" id="how-it-works">
           <div className="container">
@@ -658,69 +449,6 @@ export default function Home() {
             >
               <X size={17} />
             </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {selectedEvent && (
-          <motion.div
-            className="modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setSelectedEvent(null);
-            }}
-          >
-            <motion.section
-              ref={dialogRef}
-              className="event-dialog"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="event-dialog-title"
-              initial={{ y: reduced ? 0 : 20 }}
-              animate={{ y: 0 }}
-            >
-              <div className="dialog-image">
-                <Image
-                  src={selectedEvent.image}
-                  alt={selectedEvent.alt}
-                  fill
-                  sizes="620px"
-                />
-                <button
-                  ref={closeRef}
-                  className="dialog-close"
-                  aria-label="Close event preview"
-                  onClick={() => setSelectedEvent(null)}
-                >
-                  <X size={21} />
-                </button>
-              </div>
-              <div className="dialog-body">
-                <div className="eyebrow">
-                  {selectedEvent.type} / EVENT PREVIEW
-                </div>
-                <h2 id="event-dialog-title">{selectedEvent.title}</h2>
-                <p className="dialog-location">
-                  <MapPin size={15} />
-                  {selectedEvent.location} · {selectedEvent.day}{" "}
-                  {selectedEvent.month}{" "}
-                  {selectedEvent.month === "JAN" ? "2027" : "2026"}
-                </p>
-                <p>{selectedEvent.description}</p>
-                <div className="dialog-note">
-                  This is a sample event. Joining will be available when
-                  registration opens.
-                </div>
-                <button
-                  className="button"
-                  onClick={() => setSelectedEvent(null)}
-                >
-                  Keep exploring <ArrowRight size={17} />
-                </button>
-              </div>
-            </motion.section>
           </motion.div>
         )}
       </AnimatePresence>

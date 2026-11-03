@@ -1,15 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowUpRight, CalendarPlus, LogOut, Menu, Sprout, UserRound, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  CalendarPlus,
+  LogOut,
+  Menu,
+  Sprout,
+  UserRound,
+  X,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useAuth } from "./Providers";
 import Avatar from "./Avatar";
 
-export default function Header() {
+function HeaderContent() {
   const [open, setOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const { user, isPending, error, refetch } = useAuth();
@@ -132,5 +140,28 @@ export default function Header() {
         </nav>
       )}
     </header>
+  );
+}
+
+export default function Header() {
+  return (
+    <Suspense
+      fallback={
+        <header className="site-header">
+          <div className="container header-inner">
+            <Link className="brand" href="/" aria-label="Bandhan home">
+              <Sprout size={29} strokeWidth={1.5} />
+              Bandhan<span>.</span>
+            </Link>
+            <span
+              className="session-placeholder"
+              aria-label="Loading navigation"
+            />
+          </div>
+        </header>
+      }
+    >
+      <HeaderContent />
+    </Suspense>
   );
 }
