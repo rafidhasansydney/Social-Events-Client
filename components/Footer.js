@@ -34,7 +34,7 @@ export default function Footer() {
           </div>
           <div className="footer-links">
             <span>EXPLORE</span>
-            <Link href="/#events">
+            <Link href="/upcoming-events">
               Find an event <ArrowUpRight size={14} />
             </Link>
             <Link href="/#how-it-works">How it works</Link>
@@ -47,6 +47,7 @@ export default function Footer() {
               Join the community <ArrowUpRight size={14} />
             </Link>
             <Link href="/account">Your account</Link>
+            <Link href="/create-event">Create an event</Link>
             <Link href="/login">Log in</Link>
           </div>
           <div className="footer-place">

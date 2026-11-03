@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowUpRight, LogOut, Menu, Sprout, UserRound, X } from "lucide-react";
+import { ArrowUpRight, CalendarPlus, LogOut, Menu, Sprout, UserRound, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useAuth } from "./Providers";
@@ -17,7 +17,7 @@ export default function Header() {
   const router = useRouter();
   const links = [
     ["Home", "/"],
-    ["Upcoming Events", "/#events"],
+    ["Upcoming Events", "/upcoming-events"],
     ["How it works", "/#how-it-works"],
     ["Our story", "/#our-story"],
   ];
@@ -80,6 +80,10 @@ export default function Header() {
                 <Link href="/account">
                   <UserRound size={16} />
                   Your account
+                </Link>
+                <Link href="/create-event">
+                  <CalendarPlus size={16} />
+                  Create Event
                 </Link>
                 <button onClick={signOut} disabled={signingOut}>
                   <LogOut size={16} />

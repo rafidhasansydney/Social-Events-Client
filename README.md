@@ -12,8 +12,18 @@ Live site: deployment pending.
 - Persistent sessions, profile photos, account menus and logout.
 - Protected account page backed by a JWT-verified API.
 - Same-origin API proxy for browser requests.
+- Protected Create Event form with field validation, a live image preview and future date checks.
+- Database-backed Upcoming Events page with chronological cards and gathering descriptions.
 
-The six homepage events are currently preview data. Event creation, database-backed listings, joining and event management are planned for the next phases.
+The six homepage events are currently preview data. Database-backed homepage events, event detail pages, joining and event management are planned for the next phases.
+
+## Creating an event
+
+Log in and choose Create Event from the account menu, or open `/create-event`. Add a title, description, cause, public image URL, meeting location and a future date and time. Dates are entered in the device's local time and sent to the server as UTC. The server takes organizer identity from the verified session.
+
+Publishing shows a success toast and opens `/upcoming-events`, where saved future events appear in date order. This public page includes loading, empty and retry states. Image failures have a visual fallback. Form errors preserve entered information.
+
+Local browser verification covered required fields, past-date rejection, image preview, successful publication, the redirect, persisted events after reload and responsive layouts at 390px and 1440px. The temporary verification event was removed afterward. Server checks cover ownership spoofing, JWT/session enforcement, validation, persistence and upcoming-event filtering in an isolated database.
 
 ## Local setup
 

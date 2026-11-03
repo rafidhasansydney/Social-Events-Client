@@ -182,7 +182,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [notice]);
   function accountNotice() {
-    router.push(user ? "/account" : "/register");
+    router.push(user ? "/create-event" : "/login?next=%2Fcreate-event");
   }
   function preview(event, target) {
     openerRef.current = target;

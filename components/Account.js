@@ -59,7 +59,7 @@ export default function Account() {
           You’re part of Bandhan. Find a cause close to home and make a little
           room for something good.
         </p>
-        <Link href="/#events" className="button">
+        <Link href="/upcoming-events" className="button">
           Explore the community
           <ArrowUpRight size={17} />
         </Link>
