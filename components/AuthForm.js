@@ -17,6 +17,7 @@ import { authClient, safeReturnPath } from "@/lib/auth-client";
 import { useAuth } from "./Providers";
 import PhotoPicker from "./PhotoPicker";
 import { uploadPhoto } from "@/lib/images";
+import ThemeToggle from "./ThemeToggle";
 
 function GoogleMark() {
   return (
@@ -195,9 +196,12 @@ export default function AuthForm({ mode }) {
       </section>
       <section className="auth-form-panel">
         <div className="auth-form-wrap">
-          <Link href="/" className="auth-back">
-            ← Back to the community
-          </Link>
+          <div className="auth-toolbar">
+            <Link href="/" className="auth-back">
+              ← Back to the community
+            </Link>
+            <ThemeToggle />
+          </div>
           <div className="eyebrow">
             {registering
               ? "YOUR NEXT GOOD THING STARTS HERE"

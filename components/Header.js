@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useAuth } from "./Providers";
 import Avatar from "./Avatar";
+import ThemeToggle from "./ThemeToggle";
 
 function HeaderContent() {
   const [open, setOpen] = useState(false);
@@ -74,6 +75,7 @@ function HeaderContent() {
           ))}
         </nav>
         <div className="header-actions">
+          <ThemeToggle />
           {isPending ? (
             <span
               className="session-placeholder"

@@ -85,7 +85,11 @@ npm run dev
 - ইভেন্টের ধরন ও নাম/এলাকা দিয়ে খোঁজা, public details দেখা এবং join করা।
 - নিজের ইভেন্ট edit/delete করা এবং Joined Events-এর আলাদা তালিকা দেখা।
 
-Theme পরিবর্তন এবং live deployment পরের ধাপগুলোর কাজ।
+## Light ও dark theme
+
+সাইটের উপরে চাঁদ/সূর্যের বোতাম চাপলে পুরো সাইটের রং বদলাবে। Login ও Register পাতায় “Back to the community” লিংকের পাশেও একই বোতাম আছে। প্রথমবার light theme খুলবে; এরপর আপনার পছন্দ এই browser-এ থাকবে। পাতা বদলালে বা reload করলেও আবার বেছে নিতে হবে না।
+
+এখন বাকি live deployment এবং জমা দেওয়ার আগে চূড়ান্ত যাচাই।
 
 ## সমস্যা হলে
 

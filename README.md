@@ -18,6 +18,7 @@ Live site: deployment pending.
 - Database-backed Upcoming Events page with chronological cards and gathering descriptions.
 - Gallery and computer photo uploads for registration, events and profiles, with optional image links.
 - Editable account profile with a name, photo, area and short bio.
+- Persistent light/dark themes across public pages, authentication, profiles and event management.
 - Database-backed homepage showing up to six upcoming events using MongoDB `.limit(6)`.
 - Public event details, working participation, duplicate-join prevention and return-to-event login.
 - Event type filters, title/location search, loading skeletons and event link sharing.
@@ -25,7 +26,15 @@ Live site: deployment pending.
 - Protected Joined Events with chronological listings and All/Upcoming/Past views.
 - Organiser-aware details: event owners get management controls instead of Join Event.
 
-Homepage and Upcoming Events use saved events. Past events are excluded from public listings. Event creation, ownership, editing, deletion and participation are connected through the account menu and personal navigation. Theme work and deployment remain.
+Homepage and Upcoming Events use saved events. Past events are excluded from public listings. Event creation, ownership, editing, deletion and participation are connected through the account menu and personal navigation. Theme customization is complete; live deployment and final submission checks remain.
+
+## Colour themes
+
+Use the moon or sun button in the header to switch between light and dark. Login and registration have the same control beside the return link. The site starts in light mode and saves the selected theme locally as `bandhan-theme`. It applies before hydration, survives reloads and navigation, and synchronizes between open tabs on the same origin. No account is required.
+
+Both palettes cover cards, forms, search, menus, loading skeletons, empty states, notifications and the delete confirmation. Native inputs use the matching browser colour scheme. Photo captions retain their contrast over images. A branded missing-page screen offers links back to events and the homepage. The toggle uses the installed DaisyUI button component, scoped with a prefix to preserve the existing design. Reduced-motion preferences remain respected.
+
+Theme verification covered desktop and 320px mobile layouts, signed-in header controls, form validation messages, confirmation cancellation, missing-page recovery, reload persistence and synchronization between tabs. Client lint and the production build pass. Runtime dependencies have no reported vulnerabilities in `npm audit --omit=dev`.
 
 ## Finding and joining an event
 

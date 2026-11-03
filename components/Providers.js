@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
+import { ThemeProvider } from "next-themes";
 
 const AuthContext = createContext(null);
 
@@ -27,22 +28,30 @@ export default function Providers({ children }) {
     toast.success("Welcome to Bandhan. It’s good to have you here.");
   }, [session.data?.user]);
   return (
-    <AuthContext.Provider
-      value={{ ...session, user: session.data?.user || null }}
+    <ThemeProvider
+      attribute="data-theme"
+      defaultTheme="light"
+      enableSystem={false}
+      storageKey="bandhan-theme"
+      disableTransitionOnChange
     >
-      {children}
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4500,
-          style: {
-            fontSize: 13,
-            background: "#fffef8",
-            color: "#1e382e",
-            border: "1px solid #dcded3",
-          },
-        }}
-      />
-    </AuthContext.Provider>
+      <AuthContext.Provider
+        value={{ ...session, user: session.data?.user || null }}
+      >
+        {children}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4500,
+            style: {
+              fontSize: 13,
+              background: "var(--surface)",
+              color: "var(--ink)",
+              border: "1px solid var(--line)",
+            },
+          }}
+        />
+      </AuthContext.Provider>
+    </ThemeProvider>
   );
 }
