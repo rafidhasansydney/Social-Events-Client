@@ -2,7 +2,11 @@
 
 A community events platform for people who want to lend a hand close to home.
 
-Live site: deployment pending.
+Live site: [Bandhan](https://social-events-client-cyan.vercel.app).
+
+API readiness: [Server and database](https://social-events-server-yvf5.onrender.com/api/ready).
+
+Repositories: [client](https://github.com/rafidhasansydney/Social-Events-Client), [server](https://github.com/rafidhasansydney/Social-Events-Server).
 
 বাংলায় ব্যবহার ও চালানোর নির্দেশনা: [Bandhan ব্যবহার করার নিয়ম](USAGE.bn.md).
 
@@ -10,7 +14,7 @@ Live site: deployment pending.
 
 - Community-focused homepage with responsive photo galleries and event category filters.
 - Email registration and login with password validation and success notifications.
-- Google Login through BetterAuth, verified with a real Google account on localhost.
+- Google Login through BetterAuth, verified with a real Google account locally and on the live site.
 - Persistent sessions, profile photos, account menus and logout.
 - Protected account page backed by a JWT-verified API.
 - Same-origin API proxy for browser requests.
@@ -26,7 +30,7 @@ Live site: deployment pending.
 - Protected Joined Events with chronological listings and All/Upcoming/Past views.
 - Organiser-aware details: event owners get management controls instead of Join Event.
 
-Homepage and Upcoming Events use saved events. Past events are excluded from public listings. Event creation, ownership, editing, deletion and participation are connected through the account menu and personal navigation. Theme customization is complete; live deployment and final submission checks remain.
+Homepage and Upcoming Events use saved events. Past events are excluded from public listings. Event creation, ownership, editing, deletion and participation are connected through the account menu and personal navigation. The client is deployed on Vercel and the server on Render, with MongoDB Atlas storage. Public production checks pass; a real Google sign-in reached the live account page.
 
 ## Colour themes
 
@@ -90,10 +94,20 @@ Local authorized JavaScript origin: `http://localhost:3000`.
 
 Local authorized redirect URI: `http://localhost:5000/api/auth/callback/google`.
 
-While the Google app is in Testing mode, add the Google accounts used for testing under Google Auth Platform > Audience. Local Google sign-in, the callback and the protected account page have been verified with a real account. Repeat this check on the deployed site.
+Live authorized JavaScript origin: `https://social-events-client-cyan.vercel.app`.
+
+Live authorized redirect URI: `https://social-events-client-cyan.vercel.app/api/auth/callback/google`.
+
+The app requests only basic identity scopes (`openid`, `email`, `profile`). Google documents an exception to the Testing-mode test-user restriction for these scopes in its [audience guidance](https://support.google.com/cloud/answer/15549945?hl=en). Reassess audience and verification requirements if additional scopes are added. Real Google sign-in and account access have been verified locally and on the live site; the live check was completed by the project owner.
 
 ## Deployment
 
-Set `API_URL` in the frontend hosting environment to the deployed backend origin. For separate frontend and backend domains, use the frontend API proxy as the public auth origin and add its `/api/auth/callback/google` URL to Google OAuth. Align server `CLIENT_URL`, `BETTER_AUTH_URL`, trusted origins, HTTPS cookies and proxy client IP handling, then test Google Login and private-route reloads on the live site.
+The Vercel project imports this repository's `main` branch from root `./`, using the Next.js preset. Its `API_URL` is `https://social-events-server-yvf5.onrender.com`. Next.js proxies browser `/api/*` requests to that server.
 
-The final live URL and additional completed features will be added before submission.
+The Render service imports the server repository's `main` branch, runs `npm ci` to install and `npm start` to serve, and uses `/api/ready` as its health check. `CLIENT_URL` and `BETTER_AUTH_URL` are both `https://social-events-client-cyan.vercel.app`. Google returns through the frontend API proxy so the session belongs to the website origin. Credentials remain in Render environment variables.
+
+MongoDB Atlas allows the two outbound ranges currently reported for this Render service: `74.220.48.0/24` and `74.220.56.0/24`. Recheck Render's Connect > Outbound list after moving or recreating the service. Uploaded images are stored in MongoDB and do not depend on the Render filesystem. The free Render instance can sleep when idle, so the first request may take longer.
+
+Production verification on 3 November 2026 checked database readiness through the frontend proxy, public event data, denial of anonymous profile/management/joined API requests, anonymous session handling, the configured frontend CORS origin and rejection of an untrusted origin. Browser checks covered the live homepage, public event details, direct event reload, login with an event return path and anonymous private-route redirection. The owner supplied the successful live Google account-page result. Full event create/edit/join/delete workflows were previously verified locally against Atlas, including isolated two-account checks; those writes were not repeated against production data during deployment verification.
+
+Before submission, reload a private page while signed in and try the create, manage and joined pages on the live site with your own test events. The existing Street Cleaning event has an unavailable external image URL; its organiser can replace the photo from Manage Events > Edit.

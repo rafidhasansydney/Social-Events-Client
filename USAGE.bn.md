@@ -2,7 +2,21 @@
 
 Client হলো ব্রাউজারে দেখা Bandhan ওয়েবসাইট। Server পেছনে লগইন যাচাই ও database-এর তথ্য আদান-প্রদান করে। স্থানীয়ভাবে ব্যবহার করার সময় দুটোই চালু থাকতে হবে। লগইন করবেন ওয়েবসাইটে; server-এ আলাদা লগইন করার কোনো পেজ নেই।
 
-## সাইট চালু থাকলে
+## Live সাইট ব্যবহার
+
+[Bandhan খুলুন](https://social-events-client-cyan.vercel.app)। এই live ঠিকানা ব্যবহার করতে নিজের কম্পিউটারে client/server চালানো বা terminal খোলা রাখার প্রয়োজন নেই। কম্পিউটার বন্ধ থাকলেও hosting থেকে সাইট চলবে। Render-এর free server কিছুক্ষণ ব্যবহার না হলে ঘুমিয়ে যেতে পারে; তখন প্রথমবার তথ্য আসতে একটু সময় লাগবে।
+
+সাইটে Log in করে Google account বা নিবন্ধিত email/password ব্যবহার করুন। নিজের ইভেন্টের জন্য Manage Events, অন্যের ইভেন্টে যোগ দেওয়ার জন্য Upcoming Events এবং যোগ দেওয়া ইভেন্টগুলোর জন্য Joined Events খুলুন। নিজের ইভেন্টে Join দেখাবে না; Edit ও Manage-এর পথ থাকবে।
+
+জমা দেওয়ার link:
+
+- Live: https://social-events-client-cyan.vercel.app
+- Client: https://github.com/rafidhasansydney/Social-Events-Client
+- Server: https://github.com/rafidhasansydney/Social-Events-Server
+
+Live Google Login সফলভাবে account page খুলেছে। জমা দেওয়ার আগে account page reload করুন এবং একটি নিজের test event তৈরি, edit ও delete করে দেখুন। অন্য account দিয়ে event join করলে Joined Events-এ তা দেখা যাবে। বর্তমান Street Cleaning-এর পুরনো ছবির link কাজ করছে না; Manage Events → Edit থেকে নিজের ছবি upload করে Save changes দিতে পারবেন।
+
+## স্থানীয় সাইট চালু থাকলে
 
 ব্রাউজারে http://localhost:3000 খুলুন। একই client বা server আবার চালাবেন না।
 
@@ -49,14 +63,14 @@ Joined Events খুলুন: http://localhost:3000/joined-events। এখা�
 
 Google login নিজের Google-এর পেজে হয়। Bandhan-এর কোনো ফর্মে Google password দিতে হয় না। Email/password login-এর ক্ষেত্রে Bandhan-এ নিবন্ধনের সময় দেওয়া password ব্যবহার করুন।
 
-## কম্পিউটার বন্ধ করার পরে আবার চালানো
+## স্থানীয়ভাবে কোড নিয়ে কাজ করার সময়
 
 প্রথমে পুরো Social Development Events Platform ফোল্ডারটি editor-এ খুলুন। নিচের প্রতিটি terminal প্রজেক্টের মূল ফোল্ডার থেকে শুরু হবে।
 
 প্রথম terminal-এ server চালান:
 
-```powershell
-cd .\server
+```bash
+cd server
 npm run dev
 ```
 
@@ -64,8 +78,8 @@ npm run dev
 
 একটি নতুন terminal খুলে client চালান:
 
-```powershell
-cd .\client
+```bash
+cd client
 npm run dev
 ```
 
@@ -89,7 +103,7 @@ npm run dev
 
 সাইটের উপরে চাঁদ/সূর্যের বোতাম চাপলে পুরো সাইটের রং বদলাবে। Login ও Register পাতায় “Back to the community” লিংকের পাশেও একই বোতাম আছে। প্রথমবার light theme খুলবে; এরপর আপনার পছন্দ এই browser-এ থাকবে। পাতা বদলালে বা reload করলেও আবার বেছে নিতে হবে না।
 
-এখন বাকি live deployment এবং জমা দেওয়ার আগে চূড়ান্ত যাচাই।
+Live deployment সম্পন্ন। উপরের live link দিয়ে ব্যবহার করুন; নিচের terminal নির্দেশনা স্থানীয়ভাবে কোড নিয়ে কাজ করার জন্য।
 
 ## সমস্যা হলে
 
