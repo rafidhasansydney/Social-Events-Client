@@ -17,6 +17,7 @@ import { authenticatedFetch } from "@/lib/api";
 import { EVENT_TYPES, localDateTime, validateEvent } from "@/lib/events";
 import { useAuth } from "./Providers";
 import EventImage from "./EventImage";
+import PhotoPicker from "./PhotoPicker";
 
 const initialValues = {
   title: "",
@@ -36,6 +37,7 @@ export default function CreateEvent() {
   const [errors, setErrors] = useState({});
   const [failure, setFailure] = useState("");
   const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   function change(event) {
     const { name, value } = event.target;
@@ -68,7 +70,7 @@ export default function CreateEvent() {
 
   async function submit(event) {
     event.preventDefault();
-    if (submitting.current) return;
+    if (submitting.current || uploading) return;
     const invalid = validateEvent(values);
     setErrors(invalid);
     setFailure("");
@@ -215,17 +217,19 @@ export default function CreateEvent() {
               <span>03</span> A picture of the purpose
             </legend>
             <div className="event-field">
-              <label htmlFor="thumbnailUrl">Event image URL</label>
-              <input
-                {...fieldProps("thumbnailUrl")}
-                type="url"
-                maxLength={2048}
-                placeholder="https://example.com/your-event.jpg"
+              <PhotoPicker
+                id="thumbnailUrl"
+                label="Event photo"
+                value={values.thumbnailUrl}
+                onChange={(url) => {
+                  setValues((current) => ({ ...current, thumbnailUrl: url }));
+                  setErrors((current) => ({ ...current, thumbnailUrl: "" }));
+                  setFailure("");
+                }}
+                onBusyChange={setUploading}
+                error={errors.thumbnailUrl}
+                disabled={busy}
               />
-              {feedback(
-                "thumbnailUrl",
-                "Use a direct, publicly accessible image link. Its preview appears alongside your form.",
-              )}
             </div>
           </fieldset>
           <div className="event-organizer">
@@ -246,7 +250,11 @@ export default function CreateEvent() {
               <br />
               Your event will be visible to the community.
             </p>
-            <button className="button" type="submit" disabled={busy}>
+            <button
+              className="button"
+              type="submit"
+              disabled={busy || uploading}
+            >
               {busy ? "Publishing…" : "Publish event"}
               {busy ? (
                 <LoaderCircle size={18} className="spin" />

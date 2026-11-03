@@ -15,6 +15,8 @@ import {
 import toast from "react-hot-toast";
 import { authClient, safeReturnPath } from "@/lib/auth-client";
 import { useAuth } from "./Providers";
+import PhotoPicker from "./PhotoPicker";
+import { uploadPhoto } from "@/lib/images";
 
 function GoogleMark() {
   return (
@@ -50,10 +52,12 @@ export default function AuthForm({ mode }) {
   const [visible, setVisible] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [profileFile, setProfileFile] = useState(null);
 
   useEffect(() => {
-    if (user && !isPending) router.replace(next);
-  }, [user, isPending, router, next]);
+    if (user && !isPending && !busy) router.replace(next);
+  }, [user, isPending, router, next, busy]);
 
   async function submit(event) {
     event.preventDefault();
@@ -62,7 +66,7 @@ export default function AuthForm({ mode }) {
     const data = new FormData(event.currentTarget);
     const email = String(data.get("email") || "").trim();
     const name = String(data.get("name") || "").trim();
-    const image = String(data.get("image") || "").trim();
+    const image = profileImage.trim();
     if (
       registering &&
       (!/[A-Z]/.test(password) ||
@@ -76,11 +80,15 @@ export default function AuthForm({ mode }) {
     }
     if (registering) {
       try {
-        if (!name || !["http:", "https:"].includes(new URL(image).protocol))
+        if (
+          !name ||
+          (!profileFile &&
+            !["http:", "https:"].includes(new URL(image).protocol))
+        )
           throw new Error();
       } catch {
         setError(
-          "Enter your name and a valid HTTP or HTTPS profile image URL.",
+          "Enter your name and choose a profile photo or add an image link.",
         );
         return;
       }
@@ -88,12 +96,30 @@ export default function AuthForm({ mode }) {
     setBusy(true);
     try {
       const result = registering
-        ? await authClient.signUp.email({ name, email, image, password })
+        ? await authClient.signUp.email({
+            name,
+            email,
+            image: profileFile
+              ? `${window.location.origin}/images/profile-default.svg`
+              : image,
+            password,
+          })
         : await authClient.signIn.email({ email, password });
       if (result.error)
         throw new Error(
           result.error.message || "Unable to sign in. Please try again.",
         );
+      if (registering && profileFile) {
+        try {
+          const photoUrl = await uploadPhoto(profileFile, "profile");
+          const updated = await authClient.updateUser({ image: photoUrl });
+          if (updated.error) throw new Error(updated.error.message);
+        } catch {
+          toast.error(
+            "Your account is ready, but the photo couldn’t upload. You can add it from your profile.",
+          );
+        }
+      }
       await refetch();
       toast.success(
         registering
@@ -240,16 +266,16 @@ export default function AuthForm({ mode }) {
             </div>
             {registering && (
               <div className="form-field">
-                <label htmlFor="image">Profile photo URL</label>
-                <input
+                <PhotoPicker
                   id="image"
-                  name="image"
-                  type="url"
-                  placeholder="https://…"
-                  required
-                  maxLength={2048}
+                  label="Profile photo"
+                  value={profileImage}
+                  onChange={setProfileImage}
+                  deferUpload
+                  onSelectFile={setProfileFile}
+                  disabled={busy || googleBusy}
+                  kind="profile"
                 />
-                <small>A direct link to a photo you’d like to use.</small>
               </div>
             )}
             <div className="form-field">

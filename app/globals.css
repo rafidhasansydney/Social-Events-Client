@@ -2586,6 +2586,226 @@ i {
   padding-block: 40px 100px;
   min-height: 75dvh;
 }
+.photo-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.photo-picker-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.photo-dropzone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 110px;
+  padding: 22px;
+  background: #f0f2e8;
+  border: 1px dashed #aebda2;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.photo-dropzone:hover,
+.photo-dropzone:focus-within {
+  background: #e8edde;
+  border-color: var(--green);
+}
+.photo-dropzone:focus-within {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+.photo-dropzone > input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.photo-dropzone > input:disabled {
+  cursor: wait;
+}
+.photo-dropzone > img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.photo-dropzone > span {
+  flex: 1;
+  min-width: 0;
+}
+.photo-dropzone strong {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.photo-dropzone small,
+.photo-picker-help {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 4px;
+}
+.photo-link-option {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: 5px;
+}
+.photo-link-option summary {
+  cursor: pointer;
+}
+.photo-link-option > label {
+  display: block;
+  font-size: 12px;
+  color: var(--ink);
+  margin: 15px 0 8px;
+}
+.photo-link-option > input {
+  width: 100%;
+  border: 1px solid #cdd3c5;
+  border-radius: 5px;
+  background: #fffef9;
+  padding: 12px;
+  font: inherit;
+  color: var(--ink);
+}
+.profile-editor-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 70px;
+  border-top: 1px solid var(--line);
+  margin-top: 55px;
+  padding-top: 55px;
+}
+.profile-editor-intro {
+  padding-top: 10px;
+}
+.profile-editor-intro .eyebrow {
+  font-size: 9px;
+}
+.profile-editor-intro h2 {
+  font-size: clamp(40px, 4vw, 56px);
+}
+.profile-editor-intro p {
+  max-width: 320px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+  margin-top: 24px;
+}
+.profile-editor-intro > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #587347;
+  margin-top: 26px;
+}
+.profile-editor {
+  padding: 32px;
+  background: #fffef9;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  min-width: 0;
+}
+.profile-editor .photo-picker {
+  margin-bottom: 28px;
+}
+.profile-photo-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+.profile-photo-row > p {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+.profile-photo-row small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 6px;
+}
+.profile-editor .event-field > input[readonly] {
+  background: #f0f1e9;
+  color: var(--muted);
+}
+.optional-label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+  margin-left: 7px;
+}
+.profile-save-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.profile-save-row .text-link {
+  font-size: 12px;
+}
+.profile-save-row button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+.account-card .profile-area {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.account-card .profile-bio {
+  max-width: 420px;
+  white-space: pre-wrap;
+  line-height: 1.8;
+}
+@media (max-width: 850px) {
+  .profile-editor-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  .profile-editor-intro p {
+    max-width: 450px;
+  }
+}
+@media (max-width: 450px) {
+  .profile-editor {
+    padding: 22px 18px;
+  }
+  .photo-dropzone {
+    padding: 16px 13px;
+    gap: 10px;
+  }
+  .photo-dropzone strong {
+    font-size: 12px;
+  }
+  .photo-dropzone small {
+    font-size: 10px;
+  }
+  .photo-dropzone > img {
+    width: 44px;
+    height: 44px;
+  }
+  .photo-link-option > input {
+    font-size: 16px;
+  }
+}
 .event-back {
   display: inline-flex;
   align-items: center;

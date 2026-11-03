@@ -10,10 +10,16 @@ Client হলো ব্রাউজারে দেখা Bandhan ওয়েব�
 2. Continue with Google দিয়ে নিজের Google account বেছে নিন, অথবা আগে তৈরি করা email/password ব্যবহার করুন।
 3. লগইন হয়ে থাকলে উপরে নিজের ছবি বা নামের আদ্যক্ষর দেখা যাবে। আবার লগইন করতে হবে না।
 4. Profile menu থেকে Create Event খুলুন। সরাসরি http://localhost:3000/create-event ঠিকানাতেও যাওয়া যায়।
-5. শিরোনাম, বিবরণ, ইভেন্টের ধরন, মিলিত হওয়ার জায়গা, ভবিষ্যতের তারিখ ও সময় এবং ছবির সরাসরি URL দিন। কম্পিউটার থেকে ছবি upload করার সুবিধা এখন নেই।
+5. শিরোনাম, বিবরণ, ইভেন্টের ধরন, মিলিত হওয়ার জায়গা এবং ভবিষ্যতের তারিখ ও সময় দিন। Event photo-তে Choose a photo চেপে ফোনের গ্যালারি বা কম্পিউটার থেকে ছবি বেছে নিন।
 6. Publish event চাপুন। সফল হলে Upcoming Events খুলবে এবং সেখানে ইভেন্টটি দেখা যাবে।
 
-ছবির জন্য প্রকাশ্যে দেখা যায় এমন সরাসরি HTTP/HTTPS image URL ব্যবহার করুন; Google Images-এর search page-এর লিংক নয়।
+ছবি JPG, PNG বা WebP হতে হবে এবং 4 MB-এর মধ্যে হতে হবে। ছবি বাছলে upload হবে ও preview দেখা যাবে। লিংক ব্যবহার করতে চাইলে Or use an image link খুলুন; এখানে সরাসরি image URL দিতে হবে, Google Images-এর search page-এর লিংক নয়।
+
+## নিজের প্রোফাইল সম্পাদনা
+
+Profile menu → Your account খুলুন, অথবা http://localhost:3000/account যান। এখানে নাম, প্রোফাইল ছবি, নিজের এলাকা এবং ছোট bio বদলাতে পারবেন। ছবি গ্যালারি বা কম্পিউটার থেকে বেছে দেওয়া যায়। Save changes চাপলে পরিবর্তন সেভ হবে; Cancel changes চাপলে আগের তথ্য ফিরে আসবে। Email লগইনের পরিচয় হিসেবে দেখানো হবে।
+
+Email দিয়ে registration-এর সময়ও গ্যালারি বা কম্পিউটার থেকে প্রোফাইল ছবি বেছে দিতে পারবেন। Account তৈরি হওয়ার পরে ছবিটি upload হয়। Upload ব্যর্থ হলে প্রোফাইল থেকে আবার ছবি যোগ করতে পারবেন।
 
 Google login নিজের Google-এর পেজে হয়। Bandhan-এর কোনো ফর্মে Google password দিতে হয় না। Email/password login-এর ক্ষেত্রে Bandhan-এ নিবন্ধনের সময় দেওয়া password ব্যবহার করুন।
 
@@ -47,6 +53,8 @@ npm run dev
 - Google login, account page এবং logout।
 - লগইন করে নতুন ইভেন্ট তৈরি।
 - Upcoming Events-এ database থেকে ভবিষ্যতের ইভেন্ট দেখা।
+- গ্যালারি/কম্পিউটার থেকে ইভেন্ট ও প্রোফাইলের ছবি upload।
+- নিজের প্রোফাইলের নাম, ছবি, এলাকা ও bio সম্পাদনা।
 
 Homepage-এর ছয়টি ইভেন্ট এখনো নমুনা। নিজের তৈরি ইভেন্ট দেখতে navbar-এর Upcoming Events বা http://localhost:3000/upcoming-events ব্যবহার করুন। Event details, Join Event, Joined Events, Manage Events এবং live deployment পরের ধাপগুলোর কাজ।
 

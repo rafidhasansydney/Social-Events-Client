@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Check, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Check, MapPin, ShieldCheck } from "lucide-react";
 import { authenticatedFetch } from "@/lib/api";
 import { useAuth } from "./Providers";
 import Avatar from "./Avatar";
+import ProfileEditor from "./ProfileEditor";
 
 export default function Account() {
   const { user } = useAuth();
@@ -35,10 +36,23 @@ export default function Account() {
       </h1>
       <p>Small acts start with people like you.</p>
       <section className="account-card">
-        <Avatar user={verified || user} className="avatar-large" />
+        <Avatar
+          key={(verified || user).image}
+          user={verified || user}
+          className="avatar-large"
+        />
         <div>
           <h2>{(verified || user).name}</h2>
           <p>{(verified || user).email}</p>
+          {(verified || user).location && (
+            <p className="profile-area">
+              <MapPin size={14} />
+              {(verified || user).location}
+            </p>
+          )}
+          {(verified || user).bio && (
+            <p className="profile-bio">{(verified || user).bio}</p>
+          )}
           <span className="account-badge">
             <ShieldCheck size={14} />
             {verified ? "Your account is ready" : "Checking your account…"}
@@ -53,6 +67,11 @@ export default function Account() {
           </button>
         </div>
       )}
+      <ProfileEditor
+        key={`${user.id}-${(verified || user).updatedAt}`}
+        member={verified || user}
+        onSaved={checkAccount}
+      />
       <div className="account-welcome">
         <Check size={21} />
         <p>
