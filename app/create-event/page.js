@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RequireAuth from "@/components/RequireAuth";
-import CreateEvent from "@/components/CreateEvent";
+import EventForm from "@/components/EventForm";
 
 export const metadata = { title: "Create an event | Bandhan" };
 
@@ -10,7 +10,7 @@ export default function CreateEventPage() {
     <>
       <Header />
       <RequireAuth>
-        <CreateEvent />
+        <EventForm />
       </RequireAuth>
       <Footer />
     </>

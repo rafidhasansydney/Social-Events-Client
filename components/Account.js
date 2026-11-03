@@ -7,6 +7,7 @@ import { authenticatedFetch } from "@/lib/api";
 import { useAuth } from "./Providers";
 import Avatar from "./Avatar";
 import ProfileEditor from "./ProfileEditor";
+import MemberNavigation from "./MemberNavigation";
 
 export default function Account() {
   const { user } = useAuth();
@@ -28,6 +29,7 @@ export default function Account() {
   }, [checkAccount]);
   return (
     <main className="container account-page">
+      <MemberNavigation current="profile" />
       <div className="eyebrow">YOUR PLACE IN THE COMMUNITY</div>
       <h1>
         Good to have you here,

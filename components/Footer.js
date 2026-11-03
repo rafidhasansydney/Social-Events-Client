@@ -48,6 +48,8 @@ export default function Footer() {
             </Link>
             <Link href="/account">Your account</Link>
             <Link href="/create-event">Create an event</Link>
+            <Link href="/manage-events">Manage your events</Link>
+            <Link href="/joined-events">Your joined events</Link>
             <Link href="/login">Log in</Link>
           </div>
           <div className="footer-place">

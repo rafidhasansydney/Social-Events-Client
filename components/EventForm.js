@@ -18,6 +18,7 @@ import { EVENT_TYPES, localDateTime, validateEvent } from "@/lib/events";
 import { useAuth } from "./Providers";
 import EventImage from "./EventImage";
 import PhotoPicker from "./PhotoPicker";
+import MemberNavigation from "./MemberNavigation";
 
 const initialValues = {
   title: "",
@@ -28,12 +29,24 @@ const initialValues = {
   eventDate: "",
 };
 
-export default function CreateEvent() {
+export default function EventForm({ eventToEdit }) {
+  const editing = Boolean(eventToEdit);
   const { user } = useAuth();
   const router = useRouter();
   const formRef = useRef(null);
   const submitting = useRef(false);
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(() =>
+    editing
+      ? {
+          title: eventToEdit.title,
+          description: eventToEdit.description,
+          eventType: eventToEdit.eventType,
+          thumbnailUrl: eventToEdit.thumbnailUrl,
+          location: eventToEdit.location,
+          eventDate: localDateTime(new Date(eventToEdit.eventDate)),
+        }
+      : initialValues,
+  );
   const [errors, setErrors] = useState({});
   const [failure, setFailure] = useState("");
   const [busy, setBusy] = useState(false);
@@ -71,7 +84,7 @@ export default function CreateEvent() {
   async function submit(event) {
     event.preventDefault();
     if (submitting.current || uploading) return;
-    const invalid = validateEvent(values);
+    const invalid = validateEvent(values, eventToEdit?.eventDate);
     setErrors(invalid);
     setFailure("");
     if (Object.keys(invalid).length) {
@@ -82,16 +95,29 @@ export default function CreateEvent() {
     submitting.current = true;
     setBusy(true);
     try {
-      await authenticatedFetch("/api/events", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          eventDate: new Date(values.eventDate).toISOString(),
-        }),
-      });
-      toast.success("Your event is live. Let’s bring people together.");
-      router.push("/upcoming-events");
+      await authenticatedFetch(
+        editing ? `/api/events/${eventToEdit._id}` : "/api/events",
+        {
+          method: editing ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...values,
+            eventDate:
+              editing &&
+              values.eventDate ===
+                localDateTime(new Date(eventToEdit.eventDate))
+                ? eventToEdit.eventDate
+                : new Date(values.eventDate).toISOString(),
+          }),
+        },
+      );
+      window.dispatchEvent(new Event("bandhan:events-changed"));
+      toast.success(
+        editing
+          ? "Your event is up to date."
+          : "Your event is live. Let’s bring people together.",
+      );
+      router.push(editing ? "/manage-events" : "/upcoming-events");
     } catch (error) {
       const details = Object.fromEntries(
         (error.details || [])
@@ -110,21 +136,38 @@ export default function CreateEvent() {
 
   return (
     <main className="container create-event-page">
-      <Link className="event-back" href="/upcoming-events">
-        <ArrowLeft size={15} /> Back to events
+      <MemberNavigation current={editing ? "manage" : "create"} />
+      <Link
+        className="event-back"
+        href={editing ? "/manage-events" : "/upcoming-events"}
+      >
+        <ArrowLeft size={15} />{" "}
+        {editing ? "Back to your events" : "Back to events"}
       </Link>
       <div className="event-page-heading">
         <div className="eyebrow">
-          <i /> START SOMETHING GOOD
+          <i />{" "}
+          {editing ? "KEEP YOUR COMMUNITY IN THE KNOW" : "START SOMETHING GOOD"}
         </div>
         <h1>
-          A small idea.
-          <br />
-          <em>A shared beginning.</em>
+          {editing ? (
+            <>
+              A little update.
+              <br />
+              <em>The same good purpose.</em>
+            </>
+          ) : (
+            <>
+              A small idea.
+              <br />
+              <em>A shared beginning.</em>
+            </>
+          )}
         </h1>
         <p>
-          Bring your neighbours together for a cause that matters. Tell them
-          what you have in mind.
+          {editing
+            ? "Keep the plan clear for everyone taking part. Your changes will appear on the event page and in joined event lists."
+            : "Bring your neighbours together for a cause that matters. Tell them what you have in mind."}
         </p>
       </div>
       <div className="create-event-layout">
@@ -133,7 +176,7 @@ export default function CreateEvent() {
           className="event-form"
           onSubmit={submit}
           noValidate
-          aria-label="Create an event"
+          aria-label={editing ? "Edit your event" : "Create an event"}
           aria-busy={busy}
         >
           <fieldset disabled={busy}>
@@ -208,7 +251,9 @@ export default function CreateEvent() {
               />
               {feedback(
                 "eventDate",
-                "Choose a future date. Times use your device’s local time.",
+                editing
+                  ? "Keep the saved date or choose a new future date. Times use your device’s local time."
+                  : "Choose a future date. Times use your device’s local time.",
               )}
             </div>
           </fieldset>
@@ -246,7 +291,9 @@ export default function CreateEvent() {
           )}
           <div className="event-submit-row">
             <p>
-              Ready to open the invitation?
+              {editing
+                ? "Keep everyone up to date."
+                : "Ready to open the invitation?"}
               <br />
               Your event will be visible to the community.
             </p>
@@ -255,13 +302,24 @@ export default function CreateEvent() {
               type="submit"
               disabled={busy || uploading}
             >
-              {busy ? "Publishing…" : "Publish event"}
+              {busy
+                ? editing
+                  ? "Saving…"
+                  : "Publishing…"
+                : editing
+                  ? "Save changes"
+                  : "Publish event"}
               {busy ? (
                 <LoaderCircle size={18} className="spin" />
               ) : (
                 <ArrowUpRight size={18} />
               )}
             </button>
+            {editing && !busy && (
+              <Link className="text-link" href="/manage-events">
+                Cancel changes
+              </Link>
+            )}
           </div>
         </form>
         <aside className="event-preview" aria-label="Event preview">

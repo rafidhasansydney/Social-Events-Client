@@ -13,14 +13,17 @@ import {
   Sprout,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import usePublicData from "@/lib/use-public-data";
+import useApiData from "@/lib/use-api-data";
 import { formatEventDate } from "@/lib/events";
 import EventImage from "./EventImage";
 import EventSkeleton from "./EventSkeleton";
 import JoinEvent from "./JoinEvent";
+import { useAuth } from "./Providers";
 
 export default function EventDetails({ id }) {
-  const { data, error, loading, retry } = usePublicData(
+  const { user } = useAuth();
+  const [ownership, setOwnership] = useState(null);
+  const { data, error, loading, retry } = useApiData(
     `/api/events/${encodeURIComponent(id)}`,
   );
   const [expiredFor, setExpiredFor] = useState(null);
@@ -66,6 +69,10 @@ export default function EventDetails({ id }) {
   const event = data.event;
   const date = new Date(event.eventDate);
   const ended = Boolean(data.hasStarted || expiredFor === event.eventDate);
+  const organizer =
+    ownership?.userId === user?.id &&
+    ownership?.eventId === event._id &&
+    ownership?.organizer;
 
   async function share() {
     try {
@@ -129,9 +136,19 @@ export default function EventDetails({ id }) {
         </section>
         <aside className="detail-invitation" aria-label="Event invitation">
           <div className="eyebrow">
-            {ended ? "THIS GATHERING" : "MAKE A LITTLE ROOM"}
+            {organizer
+              ? "YOU’RE THE ORGANISER"
+              : ended
+                ? "THIS GATHERING"
+                : "MAKE A LITTLE ROOM"}
           </div>
-          <h2>{ended ? "A moment of good." : "There’s a place for you."}</h2>
+          <h2>
+            {organizer
+              ? "Your gathering."
+              : ended
+                ? "A moment of good."
+                : "There’s a place for you."}
+          </h2>
           <div className="invitation-detail">
             <CalendarDays size={19} />
             <div>
@@ -161,7 +178,12 @@ export default function EventDetails({ id }) {
               <p>{event.location}</p>
             </div>
           </div>
-          <JoinEvent key={event._id} event={event} ended={ended} />
+          <JoinEvent
+            key={event._id}
+            event={event}
+            ended={ended}
+            onOwnership={setOwnership}
+          />
         </aside>
       </div>
     </main>

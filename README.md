@@ -21,8 +21,11 @@ Live site: deployment pending.
 - Database-backed homepage showing up to six upcoming events using MongoDB `.limit(6)`.
 - Public event details, working participation, duplicate-join prevention and return-to-event login.
 - Event type filters, title/location search, loading skeletons and event link sharing.
+- Protected Manage Events with owner-only editing, photo replacement and confirmed deletion.
+- Protected Joined Events with chronological listings and All/Upcoming/Past views.
+- Organiser-aware details: event owners get management controls instead of Join Event.
 
-Homepage and Upcoming Events use saved events. Past events are excluded from listings. A dedicated Joined Events page, organizer update/delete tools, themes and deployment remain for later phases.
+Homepage and Upcoming Events use saved events. Past events are excluded from public listings. Event creation, ownership, editing, deletion and participation are connected through the account menu and personal navigation. Theme work and deployment remain.
 
 ## Finding and joining an event
 
@@ -30,7 +33,19 @@ The homepage shows up to six upcoming events in date order. Cause filters run on
 
 Select View Event to open `/events/[id]`. Details are public and support direct navigation and reload. Images have a fallback, missing events show a recovery link, and service errors have retry controls. Loading uses skeletons. Event times use the device's local timezone. The invitation closes when the start time passes.
 
-Join Event requires login. Anonymous visitors go to Login with a return path to that event. Successful participation is saved for the verified user and remains visible after reloading. Repeated or simultaneous joins create only one participation record. Past events remain readable through their detail URL but cannot receive new joins. Copy link shares the current event address through the clipboard.
+Join Event requires login. Anonymous visitors go to Login with a return path to that event. Successful participation is saved for the verified user and remains visible after reloading. Repeated or simultaneous joins create only one participation record. Organisers cannot join their own events and see Manage Event and Edit details instead. Past events remain readable through their detail URL but cannot receive new joins. Copy link shares the current event address through the clipboard.
+
+## Your events
+
+Use the signed-in navigation or account menu to open Manage Events or Joined Events. The same personal navigation is available on Profile, Create Event, Manage Events, Joined Events and event editing.
+
+Manage Events (`/manage-events`) shows only events created by the current member. Edit opens a protected, prefilled form at `/manage-events/[id]/edit`. The form reuses creation validation and photo uploads. Saving returns to Manage Events and refreshes saved listings. Existing dates can remain unchanged when editing a past event; changing the date requires a future date.
+
+Delete opens a labelled confirmation dialog with keyboard focus on Keep event. Confirming deletion removes the event and its participation records together. The server checks ownership independently of the UI. Your actual event is not removed merely by opening this dialog.
+
+Joined Events (`/joined-events`) shows the current member's participation in other organisers' events, sorted by event date. All, Upcoming and Past views are available. Details come from the current event record, so organiser edits appear here. Deleted events disappear. Legacy self-participation records are excluded from this list; organisers' events are under Manage Events.
+
+Verification includes two-account owner isolation, self-join rejection, full event editing, validation for saved and changed dates, joined-list ordering, updated event details, atomic deletion and simultaneous join/delete requests. Browser checks cover owner controls, prefilled editing, saving back to the list, joined-list reload, access denial for another organiser's event, confirmation cancellation and layouts at 320px. Temporary workflow events and their participation were removed; the user's existing event was retained.
 
 Browser verification covered homepage-to-detail navigation, category empty states, location search, public details without a session, the login return path, joining, persisted participation after reload, missing-event recovery and 390px mobile layouts. The isolated live check verifies six-event limits, filtering before limiting, literal search, public data projection, concurrent duplicate prevention, trusted participant identities and rejection of past-event joins. Temporary browser records were removed after testing.
 

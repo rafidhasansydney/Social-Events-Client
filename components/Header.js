@@ -6,6 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   ArrowUpRight,
   CalendarPlus,
+  CalendarCheck,
+  LayoutList,
   LogOut,
   Menu,
   Sprout,
@@ -26,8 +28,15 @@ function HeaderContent() {
   const links = [
     ["Home", "/"],
     ["Upcoming Events", "/upcoming-events"],
-    ["How it works", "/#how-it-works"],
-    ["Our story", "/#our-story"],
+    ...(user
+      ? [
+          ["Manage Events", "/manage-events"],
+          ["Joined Events", "/joined-events"],
+        ]
+      : [
+          ["How it works", "/#how-it-works"],
+          ["Our story", "/#our-story"],
+        ]),
   ];
 
   async function signOut() {
@@ -92,6 +101,14 @@ function HeaderContent() {
                 <Link href="/create-event">
                   <CalendarPlus size={16} />
                   Create Event
+                </Link>
+                <Link href="/manage-events">
+                  <LayoutList size={16} />
+                  Manage Events
+                </Link>
+                <Link href="/joined-events">
+                  <CalendarCheck size={16} />
+                  Joined Events
                 </Link>
                 <button onClick={signOut} disabled={signingOut}>
                   <LogOut size={16} />

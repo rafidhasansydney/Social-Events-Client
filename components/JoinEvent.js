@@ -3,20 +3,42 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight, Check, LoaderCircle, RefreshCw } from "lucide-react";
+import {
+  ArrowUpRight,
+  Check,
+  LayoutList,
+  LoaderCircle,
+  RefreshCw,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { authenticatedFetch } from "@/lib/api";
 import { useAuth } from "./Providers";
 
-export default function JoinEvent({ event, ended }) {
+export default function JoinEvent({ event, ended, onOwnership }) {
   const { user, isPending, error: accountError, refetch } = useAuth();
   const router = useRouter();
-  const [status, setStatus] = useState({ key: "", joined: false, error: "" });
+  const [status, setStatus] = useState({
+    key: "",
+    joined: false,
+    organizer: false,
+    error: "",
+  });
   const [attempt, setAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
   const submitting = useRef(false);
   const key = `${event._id}:${user?.id || ""}:${attempt}`;
   const returnPath = `/login?next=${encodeURIComponent(`/events/${event._id}`)}`;
+  const endedNotice = (
+    <div className="join-ended">
+      <Check size={18} />
+      <p>
+        This gathering has already started.
+        <Link href="/upcoming-events">
+          Find your next good deed <ArrowUpRight size={14} />
+        </Link>
+      </p>
+    </div>
+  );
 
   useEffect(() => {
     if (!user) return;
@@ -25,18 +47,34 @@ export default function JoinEvent({ event, ended }) {
       signal: controller.signal,
     })
       .then((result) => {
-        if (!controller.signal.aborted)
-          setStatus({ key, joined: result.joined, error: "" });
+        if (!controller.signal.aborted) {
+          onOwnership?.({
+            userId: user.id,
+            eventId: event._id,
+            organizer: result.organizer,
+          });
+          setStatus({
+            key,
+            joined: result.joined,
+            organizer: result.organizer,
+            error: "",
+          });
+        }
       })
       .catch((error) => {
         if (!controller.signal.aborted)
-          setStatus({ key, joined: false, error: error.message });
+          setStatus({
+            key,
+            joined: false,
+            organizer: false,
+            error: error.message,
+          });
       });
     return () => controller.abort();
-  }, [event._id, user, key]);
+  }, [event._id, user, key, onOwnership]);
 
   async function join() {
-    if (submitting.current || ended) return;
+    if (submitting.current || ended || status.organizer) return;
     submitting.current = true;
     setBusy(true);
     try {
@@ -45,7 +83,8 @@ export default function JoinEvent({ event, ended }) {
         headers: { "Content-Type": "application/json" },
         body: "{}",
       });
-      setStatus({ key, joined: true, error: "" });
+      setStatus({ key, joined: true, organizer: false, error: "" });
+      window.dispatchEvent(new Event("bandhan:participation-changed"));
       toast.success(
         result.alreadyJoined
           ? "You’re already part of this gathering."
@@ -56,25 +95,19 @@ export default function JoinEvent({ event, ended }) {
       if (error.status === 401) {
         await refetch();
         router.push(returnPath);
-      } else setStatus({ key, joined: false, error: error.message });
+      } else
+        setStatus({
+          key,
+          joined: false,
+          organizer: false,
+          error: error.message,
+        });
     } finally {
       setBusy(false);
       submitting.current = false;
     }
   }
 
-  if (ended)
-    return (
-      <div className="join-ended">
-        <Check size={18} />
-        <p>
-          This gathering has already started.
-          <Link href="/upcoming-events">
-            Find your next good deed <ArrowUpRight size={14} />
-          </Link>
-        </p>
-      </div>
-    );
   if (isPending)
     return (
       <button className="button join-event-button" disabled>
@@ -88,7 +121,9 @@ export default function JoinEvent({ event, ended }) {
       </button>
     );
   if (!user)
-    return (
+    return ended ? (
+      endedNotice
+    ) : (
       <>
         <Link className="button join-event-button" href={returnPath}>
           Log in to join <ArrowUpRight size={18} />
@@ -114,6 +149,25 @@ export default function JoinEvent({ event, ended }) {
         </button>
       </div>
     );
+  if (status.organizer)
+    return (
+      <div className="organizer-invitation">
+        <p>
+          <LayoutList size={18} />
+          <strong>You’re organising this event.</strong>
+        </p>
+        <span>
+          Keep the details up to date, or remove the event from your list.
+        </span>
+        <Link className="button join-event-button" href="/manage-events">
+          Manage Event <ArrowUpRight size={17} />
+        </Link>
+        <Link className="text-link" href={`/manage-events/${event._id}/edit`}>
+          Edit details <ArrowUpRight size={15} />
+        </Link>
+      </div>
+    );
+  if (ended) return endedNotice;
   if (status.joined)
     return (
       <div className="join-confirmed" role="status">
@@ -121,6 +175,9 @@ export default function JoinEvent({ event, ended }) {
         <div>
           <strong>You’re on the list.</strong>
           <p>Make a little room in your calendar. We’re glad you’re coming.</p>
+          <Link className="text-link" href="/joined-events">
+            Your joined events <ArrowUpRight size={14} />
+          </Link>
         </div>
       </div>
     );

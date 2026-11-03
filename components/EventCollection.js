@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, RefreshCw, Search, Sprout, X } from "lucide-react";
 import { EVENT_TYPES } from "@/lib/events";
-import usePublicData from "@/lib/use-public-data";
+import useApiData from "@/lib/use-api-data";
 import EventCard from "./EventCard";
 import EventSkeleton from "./EventSkeleton";
 
@@ -16,7 +16,7 @@ export default function EventCollection({ compact = false }) {
   if (compact) query.set("limit", "6");
   if (category !== "All events") query.set("type", category);
   if (search) query.set("q", search);
-  const { data, error, loading, retry } = usePublicData(
+  const { data, error, loading, retry } = useApiData(
     `/api/events${query.size ? `?${query}` : ""}`,
   );
   const events = data?.events || [];

@@ -30,7 +30,22 @@ Homepage-এ database থেকে সবচেয়ে কাছের তার�
 3. যোগ দিতে Join Event চাপুন। লগইন করা না থাকলে Log in to join চাপুন; login-এর পরে একই ইভেন্টে ফিরে আসবেন।
 4. সফল হলে You’re on the list দেখাবে। Reload করলেও এটি থাকবে। একই ইভেন্টে আবার যোগ দেওয়ার প্রয়োজন নেই।
 
-ইভেন্ট শুরু হয়ে গেলে নতুন করে join করা যাবে না। Copy link দিয়ে অন্য কাউকে ইভেন্টের লিংক দেওয়া যায়। নিজের সব joined events একসঙ্গে দেখার পেজ পরের phase-এ যুক্ত হবে।
+নিজের ইভেন্টে Join Event থাকবে না। সেখানে আপনি যে organiser, সেটি দেখাবে এবং Manage Event / Edit details পাবেন। অন্য কারও ইভেন্টে join করলে Joined Events তালিকায় সেটি দেখা যাবে।
+
+ইভেন্ট শুরু হয়ে গেলে নতুন করে join করা যাবে না। Copy link দিয়ে অন্য কাউকে ইভেন্টের লিংক দেওয়া যায়।
+
+## নিজের ইভেন্ট edit বা delete করা
+
+1. Navbar বা profile menu থেকে Manage Events খুলুন: http://localhost:3000/manage-events।
+2. নিজের প্রতিটি ইভেন্টের পাশে Edit ও Delete পাবেন।
+3. Edit চাপলে পুরোনো তথ্যসহ form খুলবে। তথ্য বা ছবি বদলে Save changes চাপুন। Cancel changes চাপলে তালিকায় ফিরে আসবেন।
+4. Delete চাপলে confirmation খুলবে। Keep event চাপলে কিছু মুছবে না। Delete event চাপলে ইভেন্ট এবং সেটির join রেকর্ড মুছে যাবে। এই কাজ ফিরিয়ে আনা যায় না।
+
+অন্য কারও ইভেন্ট edit/delete করা যাবে না। নিজের পুরোনো ইভেন্টের বাকি তথ্য বদলানোর সময় তার আগের তারিখ রাখা যায়; নতুন তারিখ দিলে ভবিষ্যতের তারিখ দিতে হবে।
+
+## নিজের joined events দেখা
+
+Joined Events খুলুন: http://localhost:3000/joined-events। এখানে অন্যদের যেসব ইভেন্টে যোগ দিয়েছেন সেগুলো তারিখ অনুযায়ী থাকবে। All, Upcoming ও Past দিয়ে তালিকা বেছে দেখা যায়। Organiser তথ্য বদলালে এখানে নতুন তথ্যই দেখা যাবে। নিজের তৈরি ইভেন্টগুলো Manage Events-এ থাকবে।
 
 Google login নিজের Google-এর পেজে হয়। Bandhan-এর কোনো ফর্মে Google password দিতে হয় না। Email/password login-এর ক্ষেত্রে Bandhan-এ নিবন্ধনের সময় দেওয়া password ব্যবহার করুন।
 
@@ -68,8 +83,9 @@ npm run dev
 - নিজের প্রোফাইলের নাম, ছবি, এলাকা ও bio সম্পাদনা।
 - Homepage-এ সর্বোচ্চ ৬টি সত্যিকারের upcoming event।
 - ইভেন্টের ধরন ও নাম/এলাকা দিয়ে খোঁজা, public details দেখা এবং join করা।
+- নিজের ইভেন্ট edit/delete করা এবং Joined Events-এর আলাদা তালিকা দেখা।
 
-Joined Events-এর আলাদা তালিকা, Manage Events, theme পরিবর্তন এবং live deployment পরের ধাপগুলোর কাজ।
+Theme পরিবর্তন এবং live deployment পরের ধাপগুলোর কাজ।
 
 ## সমস্যা হলে
 

@@ -3545,3 +3545,314 @@ i {
     padding: 11px;
   }
 }
+.member-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
+  margin-bottom: 45px;
+}
+.member-navigation a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  font-size: 12px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: var(--muted);
+}
+.member-navigation a:hover {
+  background: #edf0e4;
+  color: var(--ink);
+}
+.member-navigation .selected {
+  border-color: #bdcbb3;
+  background: #eaf0df;
+  color: var(--green);
+}
+.member-events-page {
+  min-height: 75dvh;
+  padding-block: 40px 90px;
+}
+.member-events-page .upcoming-heading {
+  margin-bottom: 35px;
+}
+.member-event-filters {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 25px;
+}
+.member-event-filters button {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: transparent;
+  padding: 10px 15px;
+  font-size: 12px;
+}
+.member-event-filters button span {
+  margin-left: 12px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+.member-event-filters .selected {
+  color: #fffef9;
+  background: var(--green);
+  border-color: var(--green);
+}
+.managed-events {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.managed-event {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) auto;
+  gap: 25px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fffef9;
+  align-items: center;
+}
+.managed-event-photo {
+  border-radius: 5px;
+  overflow: hidden;
+  align-self: stretch;
+  min-height: 160px;
+}
+.managed-event-photo .event-photo {
+  height: 100%;
+  aspect-ratio: auto;
+}
+.managed-event-labels {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.managed-event-labels .cause-label {
+  margin-bottom: 0;
+}
+.event-status {
+  font-size: 10px;
+  color: #587347;
+}
+.event-status.past {
+  color: #8a7764;
+}
+.managed-event-info {
+  min-width: 0;
+}
+.managed-event-info h2 {
+  font-size: 31px;
+  line-height: 1.2;
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+}
+.managed-event-info > p {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+.managed-event-info > p svg {
+  margin-top: 3px;
+}
+.managed-event-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-width: 100px;
+}
+.managed-event-actions > .button,
+.managed-event-actions > button {
+  justify-content: center;
+}
+.managed-event-actions > .text-link {
+  justify-content: center;
+  font-size: 10px;
+  margin-top: 5px;
+}
+.delete-event-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e1c3b7;
+  color: #a54630;
+  background: #fff9f4;
+  border-radius: 4px;
+  padding: 11px 16px;
+  font-size: 12px;
+}
+.delete-event-trigger:hover {
+  background: #f8e8df;
+}
+.organizer-invitation {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.organizer-invitation > p {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.organizer-invitation > span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-block: 10px 20px;
+}
+.organizer-invitation > .text-link,
+.join-confirmed .text-link {
+  font-size: 11px;
+  margin-top: 17px;
+}
+.delete-event-dialog {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0;
+  width: min(490px, calc(100% - 36px));
+  max-height: calc(100dvh - 40px);
+  overflow: auto;
+  margin: auto;
+  box-shadow: 0 20px 100px #10291d35;
+}
+.delete-event-dialog::backdrop {
+  background: #10291d88;
+  backdrop-filter: blur(3px);
+}
+.delete-dialog-body {
+  padding: 35px;
+}
+.delete-dialog-icon {
+  display: inline-flex;
+  padding: 13px;
+  color: #a54630;
+  background: #f4e4d9;
+  border-radius: 50%;
+  margin-bottom: 23px;
+}
+.delete-dialog-body h2 {
+  font-size: 40px;
+  margin-bottom: 17px;
+}
+.delete-event-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+#delete-event-description {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-block: 15px 25px;
+}
+.delete-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 28px;
+}
+.delete-dialog-actions .button {
+  padding: 13px 17px;
+  font-size: 12px;
+  justify-content: center;
+}
+.button.danger {
+  background: #a54630;
+  border-color: #a54630;
+  color: #fffaf5;
+}
+.button.secondary {
+  background: transparent;
+  border: 1px solid #bcc8af;
+  color: var(--green);
+}
+.delete-dialog-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.event-submit-row > .text-link {
+  font-size: 12px;
+}
+.member-events-page .events-empty h1 {
+  font-size: clamp(36px, 4vw, 50px);
+}
+@media (max-width: 850px) {
+  .managed-event {
+    grid-template-columns: 140px minmax(0, 1fr) auto;
+    gap: 20px;
+  }
+}
+@media (max-width: 650px) {
+  .managed-event {
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 18px 15px;
+    padding: 18px;
+  }
+  .managed-event-photo {
+    min-height: 130px;
+  }
+  .managed-event-info h2 {
+    font-size: 25px;
+  }
+  .managed-event-info > p {
+    font-size: 11px;
+  }
+  .managed-event-actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+    gap: 12px;
+  }
+  .managed-event-actions > .text-link {
+    margin-top: 0;
+    margin-left: auto;
+  }
+  .member-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 35px;
+  }
+  .member-navigation a {
+    padding: 10px 8px;
+    font-size: 10px;
+    gap: 5px;
+    justify-content: center;
+    min-height: 43px;
+  }
+  .member-navigation a svg {
+    width: 14px;
+  }
+  .managed-event-labels {
+    flex-wrap: wrap;
+  }
+  .delete-dialog-body {
+    padding: 28px 23px;
+  }
+  .delete-dialog-body h2 {
+    font-size: 34px;
+  }
+  .delete-dialog-actions {
+    gap: 10px;
+  }
+}
