@@ -4,6 +4,8 @@ A community events platform for people who want to lend a hand close to home.
 
 Live site: deployment pending.
 
+বাংলায় ব্যবহার ও চালানোর নির্দেশনা: [Bandhan ব্যবহার করার নিয়ম](USAGE.bn.md).
+
 ## Features
 
 - Community-focused homepage with responsive photo galleries and event category filters.
