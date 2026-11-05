@@ -1,113 +1,179 @@
-# Bandhan
+<div align="center">
+  <img src="docs/images/banner.svg" alt="Bandhan — a little time, a lasting bond" width="100%" />
+  <p><strong>A community events platform for people who want to lend a hand close to home.</strong></p>
+  <p>
+    <a href="https://social-events-client-cyan.vercel.app"><img src="https://img.shields.io/badge/Explore_Bandhan-244B3B?style=for-the-badge&amp;logo=vercel&amp;logoColor=white" alt="Open the live website" /></a>
+    <a href="https://github.com/rafidhasansydney/Social-Events-Server"><img src="https://img.shields.io/badge/Backend_Repository-D36C43?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Backend repository" /></a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Next.js_16-171717?style=flat-square&amp;logo=nextdotjs&amp;logoColor=white" alt="Next.js 16" />
+    <img src="https://img.shields.io/badge/React_19-149ECA?style=flat-square&amp;logo=react&amp;logoColor=white" alt="React 19" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS_4-0284C7?style=flat-square&amp;logo=tailwindcss&amp;logoColor=white" alt="Tailwind CSS 4" />
+    <img src="https://img.shields.io/badge/DaisyUI_5-7C3AED?style=flat-square&amp;logo=daisyui&amp;logoColor=white" alt="DaisyUI 5" />
+    <img src="https://img.shields.io/badge/BetterAuth-244B3B?style=flat-square" alt="BetterAuth" />
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&amp;logo=javascript&amp;logoColor=171717" alt="JavaScript" />
+  </p>
+  <p><a href="#a-look-around">Screenshots</a> · <a href="#what-you-can-do">Features</a> · <a href="#run-it-locally">Setup</a> · <a href="#verification">Verification</a> · <a href="#assignment-submission">Submission links</a></p>
+</div>
 
-A community events platform for people who want to lend a hand close to home.
+## 🌿 Meet Bandhan
 
-Live site: [Bandhan](https://social-events-client-cyan.vercel.app).
+Bandhan means a bond. The platform brings neighbours together through cleanups, plantation drives, donations, education, health and food initiatives. Members can organise a gathering, join another organiser's event and keep track of their contribution.
 
-API readiness: [Server and database](https://social-events-server-yvf5.onrender.com/api/ready).
+**Live website:** [social-events-client-cyan.vercel.app](https://social-events-client-cyan.vercel.app)
 
-Repositories: [client](https://github.com/rafidhasansydney/Social-Events-Client), [server](https://github.com/rafidhasansydney/Social-Events-Server).
+বাংলায় ব্যবহার ও Git Bash নির্দেশনা: [Bandhan ব্যবহার করার নিয়ম](USAGE.bn.md).
 
-বাংলায় ব্যবহার ও চালানোর নির্দেশনা: [Bandhan ব্যবহার করার নিয়ম](USAGE.bn.md).
+<a name="a-look-around"></a>
 
-## Features
+## 📸 A look around
 
-- Community-focused homepage with responsive photo galleries and event category filters.
-- Email registration and login with password validation and success notifications.
-- Google Login through BetterAuth, verified with a real Google account locally and on the live site.
-- Persistent sessions, profile photos, account menus and logout.
-- Protected account page backed by a JWT-verified API.
-- Same-origin API proxy for browser requests.
-- Protected Create Event form with field validation, a live image preview and future date checks.
-- Database-backed Upcoming Events page with chronological cards and gathering descriptions.
-- Gallery and computer photo uploads for registration, events and profiles, with optional image links.
-- Editable account profile with a name, photo, area and short bio.
-- Persistent light/dark themes across public pages, authentication, profiles and event management.
-- Database-backed homepage showing up to six upcoming events using MongoDB `.limit(6)`.
-- Public event details, working participation, duplicate-join prevention and return-to-event login.
-- Event type filters, title/location search, loading skeletons and event link sharing.
-- Protected Manage Events with owner-only editing, photo replacement and confirmed deletion.
-- Protected Joined Events with chronological listings and All/Upcoming/Past views.
-- Organiser-aware details: event owners get management controls instead of Join Event.
+Real browser screenshots of Bandhan. Images are stored in this repository so the preview travels with the project.
 
-Homepage and Upcoming Events use saved events. Past events are excluded from public listings. Event creation, ownership, editing, deletion and participation are connected through the account menu and personal navigation. The client is deployed on Vercel and the server on Render, with MongoDB Atlas storage. Public production checks pass; a real Google sign-in reached the live account page.
+![Bandhan homepage in light mode](docs/images/home-light.jpg)
 
-## Colour themes
+<table>
+  <tr>
+    <td width="50%"><strong>Evenings in dark mode</strong><br /><img src="docs/images/home-dark.jpg" alt="Bandhan homepage in dark mode" width="100%" /></td>
+    <td width="50%"><strong>A welcoming sign-in</strong><br /><img src="docs/images/login.jpg" alt="Bandhan login page with Google and email options" width="100%" /></td>
+  </tr>
+</table>
 
-Use the moon or sun button in the header to switch between light and dark. Login and registration have the same control beside the return link. The site starts in light mode and saves the selected theme locally as `bandhan-theme`. It applies before hydration, survives reloads and navigation, and synchronizes between open tabs on the same origin. No account is required.
+<details>
+  <summary><strong>Open the mobile preview</strong></summary>
+  <p>Navigation, typography and imagery adapt to a narrow screen.</p>
+  <img src="docs/images/home-mobile.jpg" alt="Bandhan homepage on a mobile viewport" width="300" />
+</details>
 
-Both palettes cover cards, forms, search, menus, loading skeletons, empty states, notifications and the delete confirmation. Native inputs use the matching browser colour scheme. Photo captions retain their contrast over images. A branded missing-page screen offers links back to events and the homepage. The toggle uses the installed DaisyUI button component, scoped with a prefix to preserve the existing design. Reduced-motion preferences remain respected.
+<a name="what-you-can-do"></a>
 
-Theme verification covered desktop and 320px mobile layouts, signed-in header controls, form validation messages, confirmation cancellation, missing-page recovery, reload persistence and synchronization between tabs. Client lint and the production build pass. Runtime dependencies have no reported vulnerabilities in `npm audit --omit=dev`.
+## ✨ What you can do
 
-## Finding and joining an event
+- **Find a cause nearby.** Browse future events, filter by six causes and search by title or meeting location.
+- **See what is happening next.** The homepage loads up to six upcoming events from MongoDB using `.limit(6)`, ordered by event date.
+- **Join the community.** Register with email and password or sign in with Google through BetterAuth.
+- **Start something good.** Create an event with a description, cause, location, photo and future date/time.
+- **Bring your own photos.** Select JPG, PNG or WebP from your phone or computer, up to 4 MB. An image-link option is also available.
+- **Manage your gatherings.** Edit your own events and confirm deletion from Manage Events. Organisers see management controls on their own event details.
+- **Keep your plans together.** Joined Events lists participation in date order and provides All, Upcoming and Past views.
+- **Make yourself at home.** Edit your profile name, photo, area and short bio.
+- **Choose your atmosphere.** Switch the full site between light and dark; the choice persists after reload and between tabs.
+- **Share a good thing.** Copy an event link. Loading skeletons, image fallbacks, retry actions and clear empty states keep the journey understandable.
 
-The homepage shows up to six upcoming events in date order. Cause filters run on the database before the six-event limit, so a category can find matching gatherings beyond the initial six. Upcoming Events shows all matching future events and supports case-insensitive literal searches by title or meeting location.
+The newsletter is a design-only section, as requested by the assignment. Event listings use saved data; create future events to populate the homepage.
 
-Select View Event to open `/events/[id]`. Details are public and support direct navigation and reload. Images have a fallback, missing events show a recovery link, and service errors have retry controls. Loading uses skeletons. Event times use the device's local timezone. The invitation closes when the start time passes.
+## 🧭 Pages and access
 
-Join Event requires login. Anonymous visitors go to Login with a return path to that event. Successful participation is saved for the verified user and remains visible after reloading. Repeated or simultaneous joins create only one participation record. Organisers cannot join their own events and see Manage Event and Edit details instead. Past events remain readable through their detail URL but cannot receive new joins. Copy link shares the current event address through the clipboard.
+| Page | Route | Access |
+|---|---|---|
+| Home | `/` | Public |
+| Upcoming events | `/upcoming-events` | Public |
+| Event details | `/events/[id]` | Public; joining requires login |
+| Login / Register | `/login`, `/register` | Public |
+| Profile | `/account` | Signed-in members |
+| Create event | `/create-event` | Signed-in members |
+| Manage events | `/manage-events` | Current organiser's events |
+| Edit event | `/manage-events/[id]/edit` | Event owner |
+| Joined events | `/joined-events` | Current member's participation |
 
-## Your events
+A visitor who needs to log in returns to the requested page afterward. The API independently verifies sessions, JWTs and event ownership. Repeated joins produce one participation record; organisers cannot join their own events.
 
-Use the signed-in navigation or account menu to open Manage Events or Joined Events. The same personal navigation is available on Profile, Create Event, Manage Events, Joined Events and event editing.
+## 🛠️ Built with
 
-Manage Events (`/manage-events`) shows only events created by the current member. Edit opens a protected, prefilled form at `/manage-events/[id]/edit`. The form reuses creation validation and photo uploads. Saving returns to Manage Events and refreshes saved listings. Existing dates can remain unchanged when editing a past event; changing the date requires a future date.
+| Layer | Tools |
+|---|---|
+| Interface | Next.js App Router, React, JavaScript |
+| Styling | Tailwind CSS, DaisyUI buttons, custom CSS |
+| Motion and icons | Framer Motion, Lucide |
+| Authentication | BetterAuth, Google OAuth, JWT |
+| Feedback and themes | React Hot Toast, next-themes |
+| Hosting | Vercel client, Render API, MongoDB Atlas |
 
-Delete opens a labelled confirmation dialog with keyboard focus on Keep event. Confirming deletion removes the event and its participation records together. The server checks ownership independently of the UI. Your actual event is not removed merely by opening this dialog.
+```mermaid
+flowchart LR
+  Visitor[Visitor] --> Client[Next.js client]
+  Client --> Proxy[Same-origin API proxy]
+  Proxy --> API[Express API]
+  API --> Auth[BetterAuth and JWT]
+  API --> Database[(MongoDB Atlas)]
+  Auth --> Database
+```
 
-Joined Events (`/joined-events`) shows the current member's participation in other organisers' events, sorted by event date. All, Upcoming and Past views are available. Details come from the current event record, so organiser edits appear here. Deleted events disappear. Legacy self-participation records are excluded from this list; organisers' events are under Manage Events.
+<a name="run-it-locally"></a>
 
-Verification includes two-account owner isolation, self-join rejection, full event editing, validation for saved and changed dates, joined-list ordering, updated event details, atomic deletion and simultaneous join/delete requests. Browser checks cover owner controls, prefilled editing, saving back to the list, joined-list reload, access denial for another organiser's event, confirmation cancellation and layouts at 320px. Temporary workflow events and their participation were removed; the user's existing event was retained.
+## 🚀 Run it locally
 
-Browser verification covered homepage-to-detail navigation, category empty states, location search, public details without a session, the login return path, joining, persisted participation after reload, missing-event recovery and 390px mobile layouts. The isolated live check verifies six-event limits, filtering before limiting, literal search, public data projection, concurrent duplicate prevention, trusted participant identities and rejection of past-event joins. Temporary browser records were removed after testing.
+Use Node.js 24 and npm. Start the [backend](https://github.com/rafidhasansydney/Social-Events-Server#run-it-locally) first. In Git Bash:
 
-## Creating an event
+```bash
+git clone https://github.com/rafidhasansydney/Social-Events-Client.git
+cd Social-Events-Client
+npm ci
+cp .env.example .env.local
+npm run dev
+```
 
-Log in and choose Create Event from the account menu, or open `/create-event`. Add a title, description, cause, meeting location and a future date and time. Choose a photo from your device, or expand the optional image-link field. Dates are entered in the device's local time and sent to the server as UTC. The server takes organizer identity from the verified session.
+Open [localhost:3000](http://localhost:3000).
 
-Publishing shows a success toast and opens `/upcoming-events`, where saved future events appear in date order. This public page includes loading, empty and retry states. Image failures have a visual fallback. Form errors preserve entered information.
+| Client environment variable | Local value | Purpose |
+|---|---|---|
+| `API_URL` | `http://localhost:5000` | Destination for the Next.js `/api/*` proxy |
 
-Local browser verification covered required fields, past-date rejection, image preview, successful publication, the redirect, persisted events after reload and responsive layouts at 390px and 1440px. The temporary verification event was removed afterward. Server checks cover ownership spoofing, JWT/session enforcement, validation, persistence and upcoming-event filtering in an isolated database.
+Google and database credentials belong in the backend environment. The client uses the same-origin proxy for API requests and session cookies.
 
-## Photos and profiles
+## ☁️ Deployment and Google Login
 
-Photo uploads accept JPG, PNG and WebP files up to 4 MB. The server decodes, resizes and converts them to WebP, strips image metadata and stores the compressed bytes in MongoDB. Uploaded photos receive a persistent image URL; users do not need to copy it. Uploads require a signed-in session and JWT. Registration uploads its selected photo after the new account has been created and signed in; if that upload fails, the account remains usable and the user can retry from their profile.
+| Setting | Value |
+|---|---|
+| Vercel repository / branch | This repository / `main` |
+| Framework / root | Next.js / `./` |
+| Vercel `API_URL` | `https://social-events-server-yvf5.onrender.com` |
+| Render `CLIENT_URL` | `https://social-events-client-cyan.vercel.app` |
+| Render `BETTER_AUTH_URL` | `https://social-events-client-cyan.vercel.app` |
 
-Open `/account` to edit your name, photo, area and a bio of up to 400 characters. Email is displayed as the sign-in identity. Saving updates the session and account menu; Cancel restores the saved details. Changes apply to the Bandhan profile. Server validation also applies to the underlying BetterAuth update endpoint.
+Register these values on the Google OAuth web client:
 
-Local browser checks verified device file selection, upload feedback, profile draft cancellation, saving, uploaded event photo publication and photo delivery after reload. The isolated live check verifies profile persistence, input validation, upload authentication, file limits, image decoding/resizing and public photo delivery.
+| Environment | JavaScript origin | Redirect URI |
+|---|---|---|
+| Local | `http://localhost:3000` | `http://localhost:5000/api/auth/callback/google` |
+| Live | `https://social-events-client-cyan.vercel.app` | `https://social-events-client-cyan.vercel.app/api/auth/callback/google` |
 
-## Local setup
+The app requests only `openid`, `email` and `profile`. See Google's [audience guidance](https://support.google.com/cloud/answer/15549945?hl=en) for the basic sign-in exception to Testing-mode restrictions. Email verification and password reset are intentionally omitted for this assignment.
 
-Run `npm ci`. Copy `.env.example` to `.env.local` and point `API_URL` to the Express server origin. For local development the server runs at `http://localhost:5000`.
+Render's free service can sleep while idle, so the first API response may take longer. Uploaded photos live in MongoDB rather than the hosting filesystem.
 
-Start the backend, then run `npm run dev` in this folder. Open `http://localhost:3000`.
+<a name="verification"></a>
 
-Use `npm run lint` and `npm run build` to validate the client. Use `npm start` after building to run the production bundle locally.
+## ✅ Verification
 
-## Google Login
+| Command | Purpose |
+|---|---|
+| `npm run lint` | ESLint checks |
+| `npm run build` | Production compilation and route generation |
+| `npm start` | Serve a completed production build |
 
-The browser calls `/api/auth/*` through the Next.js API proxy. Google credentials and the BetterAuth secret belong only in the server environment.
+The review on **5 November 2026** passed lint and the production build. Browser review found and fixed a narrow-screen header overflow; the updated layout was checked at 320px and 390px. Public API checks covered readiness, anonymous access protection, CORS and malformed event IDs.
 
-Local authorized JavaScript origin: `http://localhost:3000`.
+See the [verification report](docs/VERIFICATION.md) for results and limits, including the local Atlas connection restriction during the full authenticated workflow check.
 
-Local authorized redirect URI: `http://localhost:5000/api/auth/callback/google`.
+## 📁 Project map
 
-Live authorized JavaScript origin: `https://social-events-client-cyan.vercel.app`.
+```text
+app/          Pages, metadata, root layout and global styles
+components/   Navigation, forms, event views, profile and feedback
+lib/          API access, authentication, event validation and uploads
+public/       Site images and public assets
+docs/         Screenshots and verification notes
+```
 
-Live authorized redirect URI: `https://social-events-client-cyan.vercel.app/api/auth/callback/google`.
+<a name="assignment-submission"></a>
 
-The app requests only basic identity scopes (`openid`, `email`, `profile`). Google documents an exception to the Testing-mode test-user restriction for these scopes in its [audience guidance](https://support.google.com/cloud/answer/15549945?hl=en). Reassess audience and verification requirements if additional scopes are added. Real Google sign-in and account access have been verified locally and on the live site; the live check was completed by the project owner.
+## 📎 Assignment submission
 
-## Deployment
+| Required item | Link |
+|---|---|
+| Live site | [Bandhan](https://social-events-client-cyan.vercel.app) |
+| Client repository | [Social-Events-Client](https://github.com/rafidhasansydney/Social-Events-Client) |
+| Server repository | [Social-Events-Server](https://github.com/rafidhasansydney/Social-Events-Server) |
 
-The Vercel project imports this repository's `main` branch from root `./`, using the Next.js preset. Its `API_URL` is `https://social-events-server-yvf5.onrender.com`. Next.js proxies browser `/api/*` requests to that server.
-
-The Render service imports the server repository's `main` branch, runs `npm ci` to install and `npm start` to serve, and uses `/api/ready` as its health check. `CLIENT_URL` and `BETTER_AUTH_URL` are both `https://social-events-client-cyan.vercel.app`. Google returns through the frontend API proxy so the session belongs to the website origin. Credentials remain in Render environment variables.
-
-MongoDB Atlas allows the two outbound ranges currently reported for this Render service: `74.220.48.0/24` and `74.220.56.0/24`. Recheck Render's Connect > Outbound list after moving or recreating the service. Uploaded images are stored in MongoDB and do not depend on the Render filesystem. The free Render instance can sleep when idle, so the first request may take longer.
-
-Production verification on 3 November 2026 checked database readiness through the frontend proxy, public event data, denial of anonymous profile/management/joined API requests, anonymous session handling, the configured frontend CORS origin and rejection of an untrusted origin. Browser checks covered the live homepage, public event details, direct event reload, login with an event return path and anonymous private-route redirection. The owner supplied the successful live Google account-page result. Full event create/edit/join/delete workflows were previously verified locally against Atlas, including isolated two-account checks; those writes were not repeated against production data during deployment verification.
-
-Before submission, reload a private page while signed in and try the create, manage and joined pages on the live site with your own test events. The existing Street Cleaning event has an unavailable external image URL; its organiser can replace the photo from Manage Events > Edit.
+Built by [Rafid Hasan Sydney](https://github.com/rafidhasansydney) for the Social Development Events Platform assignment.
