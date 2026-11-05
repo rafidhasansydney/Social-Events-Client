@@ -3989,6 +3989,9 @@ i {
   .header-actions {
     gap: 10px;
   }
+  .header-actions > .button {
+    display: none;
+  }
   .auth-toolbar {
     margin-bottom: 30px;
   }
